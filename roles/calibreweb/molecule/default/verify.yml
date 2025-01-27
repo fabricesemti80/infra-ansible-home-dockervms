@@ -1,16 +1,13 @@
----
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
     - include_vars:
         file: ../../defaults/main.yml
-
     - name: Get container state
-      docker_container_info:
+      community.docker.docker_container_info:
         name: "{{ calibreweb_container_name }}"
       register: result
-
     - name: Check Calibre-web is running
       assert:
         that:

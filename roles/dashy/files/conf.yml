@@ -1,4 +1,3 @@
----
 # Page meta info, like heading, footer text and nav links
 pageInfo:
   title: "{{ ansible_nas_hostname }} Dashboard"
@@ -8,11 +7,9 @@ pageInfo:
       path: https://ansible-nas.io
     - title: GitHub
       path: https://github.com/davestephens/ansible-nas
-
 # Optional app settings and configuration
 appConfig:
   theme: colorful
-
 # Main content - An array of sections, each containing an array of items
 sections:
   - name: Ansible-NAS Applications
@@ -23,11 +20,11 @@ sections:
       itemCountX: 5
       cols: 2
     items:
-  - name: Clock
-    icon: fas fa-clock
-    widgets:
-      - type: clock
-        options:
-          timeZone: {{ ansible_nas_timezone }}
-          format: en-GB
-          hideDate: false
+      - name: Clock
+        icon: fas fa-clock
+        widgets:
+          - type: clock
+            options:
+              timeZone: "{{ ansible_nas_timezone }}"
+              format: "en-GB"
+              hideDate: false
