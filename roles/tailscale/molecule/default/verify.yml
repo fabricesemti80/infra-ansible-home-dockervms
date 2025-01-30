@@ -1,15 +1,18 @@
+---
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
+
     - name: Get container state
       community.docker.docker_container_info:
-        name: "{{ apcupsd_container_name }}"
+        name: "{{ tailscale_container_name }}"
       register: result
-    - name: Check Apcupsd is running
-      assert:
+
+    - name: Check tailscale is running
+      ansible.builtin.assert:
         that:
           - result.container['State']['Status'] == "running"
           - result.container['State']['Restarting'] == false

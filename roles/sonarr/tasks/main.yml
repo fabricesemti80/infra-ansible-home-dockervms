@@ -1,4 +1,3 @@
----
 - name: Start Sonarr
   block:
     - name: Create Sonarr Directories
@@ -7,7 +6,6 @@
         state: directory
       with_items:
         - "{{ sonarr_data_directory }}"
-
     - name: Sonarr
       community.docker.docker_container:
         name: "{{ sonarr_container_name }}"
@@ -32,8 +30,11 @@
           traefik.http.routers.sonarr.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.sonarr.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.sonarr.loadbalancer.server.port: "8989"
+          homepage.group: "Media"
+          homepage.name: "Sonarr"
+          homepage.icon: "sonarr"
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ sonarr_port }}"
   when: sonarr_enabled is true
-
 - name: Stop Sonarr
   block:
     - name: Stop Sonarr

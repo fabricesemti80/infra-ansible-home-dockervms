@@ -19,7 +19,7 @@ homepage_image_tag: "latest"
 homepage_memory: "1g"
 
 # settings
-homepage_title: Ansible-NAS Homepage
+homepage_title: Ansible-MediaServer Homepage
 homepage_locale: en-GB
 
 # Homepage config files - the variables below are formatted to Homepage YAML config files
@@ -33,7 +33,7 @@ homepage_services_yaml:
       - Router:
           icon: asus-router
           href: http://192.168.1.1/
-          description: Asus Router
+          description: Unifi Router
 
 homepage_widgets_yaml:
   - search:
@@ -42,7 +42,7 @@ homepage_widgets_yaml:
       target: _blank # One of _self, _blank, _parent or _top
   - greeting:
       text_size: xl
-      text: Ansible-NAS
+      text: Ansible-MediaServer
   - resources:
       cpu: true
       memory: true

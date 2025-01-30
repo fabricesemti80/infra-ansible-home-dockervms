@@ -1,0 +1,26 @@
+---
+tailscale_enabled: false
+tailscale_available_externally: "false"
+
+# uid / gid
+tailscale_user_id: "0"
+tailscale_group_id: "0"
+
+# directories
+tailscale_data_directory: "{{ docker_home }}/tailscale"
+
+# network
+# tailscale_port: "8093"
+# tailscale_webserver_port: "8094"
+tailscale_hostname: "tailscale"
+
+# env
+# tailscale_password: ""
+tailscale_cli_args: ""
+tailscale_security_opts: "seccomp=unconfined" # For why this is here, see https://github.com/linuxserver/docker-tailscale/issues/102
+
+# specs
+tailscale_memory: 1g
+
+# docker
+tailscale_container_name: tailscale

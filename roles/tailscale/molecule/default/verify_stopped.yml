@@ -1,15 +1,18 @@
+---
 - name: Verify
   hosts: all
   gather_facts: false
   tasks:
-    - include_vars:
+    - ansible.builtin.include_vars:
         file: ../../defaults/main.yml
-    - name: Try and stop and remove Calibre-web
+
+    - name: Try and stop and remove tailscale
       community.docker.docker_container:
-        name: "{{ calibreweb_container_name }}"
+        name: "{{ tailscale_container_name }}"
         state: absent
       register: result
-    - name: Check Calibre-web is stopped
-      assert:
+
+    - name: Check tailscale is stopped
+      ansible.builtin.assert:
         that:
           - not result.changed
