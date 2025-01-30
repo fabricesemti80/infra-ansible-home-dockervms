@@ -1,0 +1,54 @@
+---
+- name: Start tailscale
+  block:
+    - name: Create tailscale Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - "{{ tailscale_data_directory }}/data"
+
+    - name: Tailscale Docker Container
+      community.docker.docker_container:
+        name: "{{ tailscale_container_name }}"
+        image: tailscale/tailscale
+        pull: true
+        volumes:
+          - "{{ tailscale_data_directory }}:/var/lib/tailscale:rw"
+        devices:
+          - "/dev/net/tun:/dev/net/tun"
+        capabilities:
+          - "net_admin"
+        env:
+          TS_AUTHKEY: "{{ tailscale_auth_key }}"
+          # TS_EXTRA_ARGS: "--advertise-tags=tag:container"
+          TS_STATE_DIR: "/var/lib/tailscale"
+          TS_USERSPACE: "false"
+          TZ: "{{ ansible_nas_timezone }}"
+          PUID: "{{ tailscale_user_id }}"
+          PGID: "{{ tailscale_group_id }}"
+          # PASSWORD: "{{ tailscale_password }}"
+          CLI_ARGS: "{{ tailscale_cli_args }}"
+        # ports:
+        #   - "{{ tailscale_port }}:8080"
+        #   - "{{ tailscale_webserver_port }}:8081"
+        security_opts: "{{ tailscale_security_opts }}"
+        restart_policy: unless-stopped
+        memory: "{{ tailscale_memory }}"
+        # labels:
+        #   traefik.enable: "{{ tailscale_available_externally | string }}"
+        #   traefik.http.routers.tailscale.rule: "Host(`{{ tailscale_hostname }}.{{ ansible_nas_domain }}`)"
+        #   traefik.http.routers.tailscale.tls.certresolver: "letsencrypt"
+        #   traefik.http.routers.tailscale.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        #   traefik.http.routers.tailscale.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        #   traefik.http.services.tailscale.loadbalancer.server.port: "8080"
+  when: tailscale_enabled is true
+
+- name: Stop tailscale
+  block:
+    - name: Stop tailscale
+      community.docker.docker_container:
+        name: "{{ tailscale_container_name }}"
+        state: absent
+  when: tailscale_enabled is false
