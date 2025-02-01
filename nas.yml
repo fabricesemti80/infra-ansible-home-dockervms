@@ -389,6 +389,10 @@
       tags:
         - syncthing
 
+    - role: tailscale
+      tags:
+        - tailscale
+
     - role: tautulli
       tags:
         - tautulli
