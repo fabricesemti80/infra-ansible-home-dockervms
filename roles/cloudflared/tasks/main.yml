@@ -14,10 +14,6 @@
         image: cloudflare/cloudflared
         command: tunnel run
         pull: true
-        # volumes:
-        #   - "{{ cloudflared_data_directory }}:/cloudflared:rw"
-        # ports:
-        #   - "{{ cloudflared_port }}:8000"
         restart_policy: unless-stopped
         memory: "{{ cloudflared_memory }}"
         env:
