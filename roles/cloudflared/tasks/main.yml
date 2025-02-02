@@ -26,4 +26,10 @@
       community.docker.docker_container:
         name: "{{ cloudflared_container_name }}"
         state: absent
+    - name: Remove Cloudflared Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ cloudflared_data_directory }}"        
   when: cloudflared_enabled is false
