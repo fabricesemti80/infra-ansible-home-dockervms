@@ -1,0 +1,44 @@
+---
+- name: Start Cloudflared
+  block:
+    - name: Create Cloudflared Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ cloudflared_data_directory }}"
+
+    - name: Cloudflared Docker Container
+      community.docker.docker_container:
+        name: "{{ cloudflared_container_name }}"
+        image: cloudflare/cloudflared
+        command: tunnel run
+        pull: true
+        # volumes:
+        #   - "{{ cloudflared_data_directory }}:/cloudflared:rw"
+        # ports:
+        #   - "{{ cloudflared_port }}:8000"
+        restart_policy: unless-stopped
+        memory: "{{ cloudflared_memory }}"
+        env:
+          TUNNEL_TOKEN: "{{ cloudflared_tunnel_token }}"
+  when: cloudflared_enabled is true
+
+- name: Stop Cloudflared
+  block:
+    - name: Stop Cloudflared
+      community.docker.docker_container:
+        name: "{{ cloudflared_container_name }}"
+        state: absent
+  when: cloudflared_enabled is false
+
+
+  # tunnel:
+  #   container_name: cloudflared-tunnel
+  #   image: cloudflare/cloudflared
+  #   restart: unless-stopped
+  #   command: tunnel run
+  #   networks:
+  #     - traefik
+  #   environment:
+  #     - TUNNEL_TOKEN=${TUNNEL_TOKEN}

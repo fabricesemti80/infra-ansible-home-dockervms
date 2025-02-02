@@ -1,0 +1,20 @@
+---
+# This is a Cloudflared playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_vars:
+        file: ../../defaults/main.yml
+
+    - name: Try and stop and remove Cloudflared
+      community.docker.docker_container:
+        name: "{{ cloudflared_container_name }}"
+        state: absent
+      register: result
+
+    - name: Check Cloudflared is stopped
+      ansible.builtin.assert:
+        that:
+          - not result.changed
