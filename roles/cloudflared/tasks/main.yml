@@ -31,14 +31,3 @@
         name: "{{ cloudflared_container_name }}"
         state: absent
   when: cloudflared_enabled is false
-
-
-  # tunnel:
-  #   container_name: cloudflared-tunnel
-  #   image: cloudflare/cloudflared
-  #   restart: unless-stopped
-  #   command: tunnel run
-  #   networks:
-  #     - traefik
-  #   environment:
-  #     - TUNNEL_TOKEN=${TUNNEL_TOKEN}
