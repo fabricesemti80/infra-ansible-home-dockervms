@@ -20,6 +20,8 @@
         state: directory
       with_items:
         - "{{ loki_data_directory }}"
+        - "{{ stats_grafana_config_directory }}/provisioning"
+        - "{{ stats_grafana_config_directory }}/provisioning/datasources"
 
     - name: Create Minio buckets for Loki
       ansible.builtin.file:
@@ -71,8 +73,18 @@
 
 - name: Stop loki
   block:
+
     - name: Stop loki
       community.docker.docker_container:
         name: "{{ loki_container_name }}"
         state: absent
+    - name: Remove Loki Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ loki_data_directory }}"
+        - "{{ stats_grafana_config_directory }}/provisioning"
+        - "{{ stats_grafana_config_directory }}/provisioning/datasources"       
+         
   when: loki_enabled is false

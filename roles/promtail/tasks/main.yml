@@ -1,28 +1,33 @@
 ---
-- name: Start Promtail
+- name: Validate Loki Dependency
+  ansible.builtin.fail:
+    msg: "Promtail requires Loki enabled and running as a write target, please set that up first."
+  when: 
+    - promtail_enabled
+    - not loki_enabled
+
+- name: Include Loki variables
+  ansible.builtin.include_vars: ../../loki/defaults/main.yml
+  when: promtail_enabled
+
+- name: Set up Promtail
+  when: promtail_enabled
   block:
-    - name: Check for Loki installation
-      ansible.builtin.fail:
-        msg: "Promtail requires Loki enabled and running as a write target, please set that up first."
-      when: loki_enabled is false
-
-    - name: Include Loki variables
-      ansible.builtin.include_vars: ../../loki/defaults/main.yml
-
-    - name: Create Promtail Directories
+    - name: Prepare Promtail directories
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
       with_items:
+        - "{{ promtail_data_directory }}"
         - "{{ promtail_data_directory }}/config"
         - "{{ promtail_data_directory }}/data"
 
-    - name: Template Promtail config
+    - name: Configure Promtail
       ansible.builtin.template:
         src: config.yml
         dest: "{{ promtail_data_directory }}/config/config.yml"
 
-    - name: Create Promtail Docker Container
+    - name: Deploy Promtail container
       community.docker.docker_container:
         name: "{{ promtail_container_name }}"
         image: "{{ promtail_image_name }}:{{ promtail_image_version }}"
@@ -43,12 +48,21 @@
           traefik.http.routers.promtail.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.promtail.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
           traefik.http.services.promtail.loadbalancer.server.port: "9080"
-  when: promtail_enabled is true
 
-- name: Stop promtail
+- name: Clean up Promtail
+  when: not promtail_enabled
   block:
-    - name: Stop promtail
+    - name: Remove Promtail container
       community.docker.docker_container:
         name: "{{ promtail_container_name }}"
         state: absent
-  when: promtail_enabled is false
+
+    - name: Remove Promtail directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ promtail_data_directory }}"
+        - "{{ promtail_data_directory }}/config"
+        - "{{ promtail_data_directory }}/data"
+

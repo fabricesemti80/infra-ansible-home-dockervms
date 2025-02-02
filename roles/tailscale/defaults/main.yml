@@ -24,3 +24,5 @@ tailscale_memory: 1g
 
 # docker
 tailscale_container_name: tailscale
+
+tailscale_hostname: "{{ ansible_nas_hostname }}"

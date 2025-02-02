@@ -1,5 +1,6 @@
 ---
 - name: Start Prometheus
+  when: stats_enabled is true
   block:
     - name: Create Prometheus Config Directory
       ansible.builtin.file:
@@ -53,12 +54,19 @@
           homepage.description: Metrics and alerting
           homepage.widget.type: prometheus
           homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_prometheus_port }}"
-  when: stats_enabled is true
 
-- name: Stop Prometheus
+- name: Clean up Prometheus
+  when: stats_enabled is false
   block:
     - name: Stop Prometheus
       community.docker.docker_container:
         name: "{{ stats_prometheus_container_name }}"
         state: absent
-  when: stats_enabled is false
+
+    - name: Remove Grafana directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ stats_prometheus_data_directory }}"
+        - "{{ stats_prometheus_config_directory }}"
