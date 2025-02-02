@@ -1,6 +1,6 @@
 ---
 auth:
-  scopedToken: "{{ cloudflare_token }}"
+  scopedToken: "{{ cloudflare_dns_token }}"
 domains:
   - name: "{{ cloudflare_host }}"
     type: "{{ cloudflare_type }}"

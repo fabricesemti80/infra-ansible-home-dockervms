@@ -12,7 +12,7 @@ cloudflare_host: "*.{{ cloudflare_zone }}"
 
 # Cloudflare scoped token (https://github.com/joshuaavalon/docker-cloudflare#api-token)
 # Make sure token permissions include #DNS:Edit and #Zone:Read
-cloudflare_token: "abcdabcdabcd123412341234"
+cloudflare_dns_token: "abcdabcdabcd123412341234"
 
 # Set to true to make traffic go through the CloudFlare CDN.
 # Note that if the cloudflare host is a wildcard (the default), this must be false, as cloudflare
