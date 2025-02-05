@@ -3,12 +3,12 @@
 #   ansible.builtin.fail:
 #     msg: "Promtail requires Loki enabled and running as a write target, please set that up first."
 #   when: 
-#     - promtail_enabled
+#     - stats_promtail_enabled
 #     - not loki_enabled
 
 # - name: Include Loki variables
 #   ansible.builtin.include_vars: ../../loki/defaults/main.yml
-#   when: promtail_enabled
+#   when: stats_promtail_enabled
 
 - name: START Promtail
   block:
@@ -18,32 +18,32 @@
         path: "{{ item }}"
         state: directory
       with_items:
-        - "{{ promtail_data_directory }}"
-        - "{{ promtail_data_directory }}/config"
-        - "{{ promtail_data_directory }}/data"
+        - "{{ stats_promtail_data_directory }}"
+        - "{{ stats_promtail_data_directory }}/config"
+        - "{{ stats_promtail_data_directory }}/data"
 
     - name: Configure Promtail
       ansible.builtin.template:
         src: promtail-config.yml
-        dest: "{{ promtail_data_directory }}/config/config.yml"
+        dest: "{{ stats_promtail_data_directory }}/config/config.yml"
 
     - name: Deploy Promtail container
       community.docker.docker_container:
-        name: "{{ promtail_container_name }}"
-        image: "{{ promtail_image_name }}:{{ promtail_image_version }}"
+        name: "{{ stats_promtail_container_name }}"
+        image: "{{ stats_promtail_image_name }}:{{ stats_promtail_image_version }}"
         pull: true
         command: "-config.file=/etc/promtail/config.yml"
         ports:
-          - "{{ promtail_port }}:9080"
+          - "{{ stats_promtail_port }}:9080"
         volumes:
-          - "{{ promtail_data_directory }}/config/config.yml:/etc/promtail/config.yml"
-          - "{{ promtail_data_directory }}/data/:/data"
+          - "{{ stats_promtail_data_directory }}/config/config.yml:/etc/promtail/config.yml"
+          - "{{ stats_promtail_data_directory }}/data/:/data"
           - "/var/run/docker.sock:/var/run/docker.sock"
         restart_policy: unless-stopped
-        memory: "{{ promtail_memory }}"
+        memory: "{{ stats_promtail_memory }}"
         labels:
-          traefik.enable: "{{ promtail_available_externally | string }}"
-          traefik.http.routers.promtail.rule: "Host(`{{ promtail_hostname }}.{{ ansible_nas_domain }}`)"
+          traefik.enable: "{{ stats_promtail_available_externally | string }}"
+          traefik.http.routers.promtail.rule: "Host(`{{ stats_promtail_hostname }}.{{ ansible_nas_domain }}`)"
           traefik.http.routers.promtail.tls.certresolver: "letsencrypt"
           traefik.http.routers.promtail.tls.domains[0].main: "{{ ansible_nas_domain }}"
           traefik.http.routers.promtail.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
@@ -56,7 +56,7 @@
 
     - name: Remove Promtail container
       community.docker.docker_container:
-        name: "{{ promtail_container_name }}"
+        name: "{{ stats_promtail_container_name }}"
         state: absent
 
     - name: Remove Promtail directories
@@ -64,8 +64,8 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ promtail_data_directory }}"
-        - "{{ promtail_data_directory }}/config"
-        - "{{ promtail_data_directory }}/data"
+        - "{{ stats_promtail_data_directory }}"
+        - "{{ stats_promtail_data_directory }}/config"
+        - "{{ stats_promtail_data_directory }}/data"
 
   when: stats_enabled is false
