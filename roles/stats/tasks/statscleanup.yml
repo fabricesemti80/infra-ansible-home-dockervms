@@ -1,10 +1,11 @@
-- name: Create stats directory
+
+- name: Remove stats directory
   block:
 
-    - name: Create stats directory
+    - name: Remove stats directory
       ansible.builtin.file:
         path: "{{ item }}"
-        state: directory
+        state: absent
       with_items:
         - "{{ docker_home }}/stats"
         - "{{ stats_telegraf_config_directory }}"
@@ -14,4 +15,4 @@
         - "{{ stats_grafana_config_directory }}/provisioning"        
         - "{{ stats_grafana_config_directory }}/provisioning/datasources"
 
-  when: stats_enabled is true
+  when: stats_enabled is false

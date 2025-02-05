@@ -1,5 +1,5 @@
 ---
-- name: Start Telegraf
+- name: START Telegraf
   block:
     - name: Create Telegraf Directory
       ansible.builtin.file:
@@ -51,10 +51,18 @@
         restart: "{{ telegraf_config is changed }}"
   when: stats_enabled is true
 
-- name: Stop Telegraf
+- name: STOP Telegraf
   block:
     - name: Stop stats_telegraf
       community.docker.docker_container:
         name: "{{ stats_telegraf_container_name }}"
         state: absent
+
+    - name: Remove Telegraf directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ stats_telegraf_config_directory }}" 
+
   when: stats_enabled is false

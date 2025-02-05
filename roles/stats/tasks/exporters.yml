@@ -45,7 +45,7 @@
           timeout: 10s
           retries: 3      
       when: stats_internet_speed_test_enabled
-  when: stats_enabled | bool
+  when: stats_enabled is true
 
 - name: STOP Exporters
   block:
@@ -64,4 +64,4 @@
         name: "{{ stats_speedtest_container_name }}"
         state: absent
       when: not stats_internet_speed_test_enabled | bool
-  when: not stats_enabled | bool
+  when: stats_enabled is false

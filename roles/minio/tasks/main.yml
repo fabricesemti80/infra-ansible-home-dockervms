@@ -1,5 +1,5 @@
 ---
-- name: Start Minio
+- name: START Minio
   block:
     - name: Create Minio Directories
       ansible.builtin.file:
@@ -8,7 +8,6 @@
       with_items:
         - "{{ minio_data_directory }}"
         - "{{ minio_data_directory }}/data"
-
 
     - name: Create minio Docker Container
       community.docker.docker_container:
@@ -36,8 +35,9 @@
           traefik.http.services.minio.loadbalancer.server.port: "9000"
   when: minio_enabled is true
 
-- name: Stop minio
+- name: STOP Minio
   block:
+  
     - name: Stop minio
       community.docker.docker_container:
         name: "{{ minio_container_name }}"
@@ -48,5 +48,6 @@
         state: absent
       with_items:
         - "{{ minio_data_directory }}"
-        - "{{ minio_data_directory }}/data"       
+        - "{{ minio_data_directory }}/data"
+
   when: minio_enabled is false
