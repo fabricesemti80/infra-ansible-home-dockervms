@@ -1,5 +1,5 @@
 ---
-- name: Start logging stack
+- name: START logging stack
   block:
     - name: Enable logging roles
       ansible.builtin.set_fact:
@@ -16,7 +16,7 @@
   #   promtail_enabled: true
 
 
-- name: Stop logging stack
+- name: STOP logging stack
   block:
     - name: Disable logging roles
       ansible.builtin.set_fact:
