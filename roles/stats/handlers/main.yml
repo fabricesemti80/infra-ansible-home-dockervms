@@ -6,3 +6,9 @@
     state: started
     restart: true
   listen: "restart grafana"
+
+- name: Restart Promtail
+  community.docker.docker_container:
+    name: "{{ stats_promtail_container_name }}"
+    state: started
+    restart: yes

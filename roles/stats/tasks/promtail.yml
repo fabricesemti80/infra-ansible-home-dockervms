@@ -13,59 +13,60 @@
 - name: START Promtail
   block:
 
-    - name: Prepare Promtail directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-      with_items:
-        - "{{ stats_promtail_data_directory }}"
-        - "{{ stats_promtail_data_directory }}/config"
-        - "{{ stats_promtail_data_directory }}/data"
+  - name: Prepare Promtail directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ stats_promtail_data_directory }}"
+    - "{{ stats_promtail_data_directory }}/config"
+    - "{{ stats_promtail_data_directory }}/data"
 
-    - name: Configure Promtail
-      ansible.builtin.template:
-        src: promtail-config.yml
-        dest: "{{ stats_promtail_data_directory }}/config/config.yml"
+  - name: Configure Promtail
+    ansible.builtin.template:
+      src: promtail-config.yml
+      dest: "{{ stats_promtail_data_directory }}/config/config.yml"
+    notify: Restart Promtail
 
-    - name: Deploy Promtail container
-      community.docker.docker_container:
-        name: "{{ stats_promtail_container_name }}"
-        image: "{{ stats_promtail_image_name }}:{{ stats_promtail_image_version }}"
-        pull: true
-        command: "-config.file=/etc/promtail/config.yml"
-        ports:
-          - "{{ stats_promtail_port }}:9080"
-        volumes:
-          - "{{ stats_promtail_data_directory }}/config/config.yml:/etc/promtail/config.yml"
-          - "{{ stats_promtail_data_directory }}/data/:/data"
-          - "/var/run/docker.sock:/var/run/docker.sock"
-        restart_policy: unless-stopped
-        memory: "{{ stats_promtail_memory }}"
-        labels:
-          traefik.enable: "{{ stats_promtail_available_externally | string }}"
-          traefik.http.routers.promtail.rule: "Host(`{{ stats_promtail_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.promtail.tls.certresolver: "letsencrypt"
-          traefik.http.routers.promtail.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.promtail.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.promtail.loadbalancer.server.port: "9080"
+  - name: Deploy Promtail container
+    community.docker.docker_container:
+      name: "{{ stats_promtail_container_name }}"
+      image: "{{ stats_promtail_image_name }}:{{ stats_promtail_image_version }}"
+      pull: true
+      command: "-config.file=/etc/promtail/config.yml"
+      ports:
+      - "{{ stats_promtail_port }}:9080"
+      volumes:
+      - "{{ stats_promtail_data_directory }}/config/config.yml:/etc/promtail/config.yml"
+      - "{{ stats_promtail_data_directory }}/data/:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      restart_policy: unless-stopped
+      memory: "{{ stats_promtail_memory }}"
+      labels:
+        traefik.enable: "{{ stats_promtail_available_externally | string }}"
+        traefik.http.routers.promtail.rule: "Host(`{{ stats_promtail_hostname }}.{{ ansible_nas_domain }}`)"
+        traefik.http.routers.promtail.tls.certresolver: "letsencrypt"
+        traefik.http.routers.promtail.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        traefik.http.routers.promtail.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        traefik.http.services.promtail.loadbalancer.server.port: "9080"
 
   when: stats_enabled is true
 
 - name: Clean up Promtail
   block:
 
-    - name: Remove Promtail container
-      community.docker.docker_container:
-        name: "{{ stats_promtail_container_name }}"
-        state: absent
+  - name: Remove Promtail container
+    community.docker.docker_container:
+      name: "{{ stats_promtail_container_name }}"
+      state: absent
 
-    - name: Remove Promtail directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      with_items:
-        - "{{ stats_promtail_data_directory }}"
-        - "{{ stats_promtail_data_directory }}/config"
-        - "{{ stats_promtail_data_directory }}/data"
+  - name: Remove Promtail directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ stats_promtail_data_directory }}"
+    - "{{ stats_promtail_data_directory }}/config"
+    - "{{ stats_promtail_data_directory }}/data"
 
   when: stats_enabled is false
