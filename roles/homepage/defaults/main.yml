@@ -19,7 +19,7 @@ homepage_image_tag: "latest"
 homepage_memory: "1g"
 
 # settings
-homepage_title: Ansible-MediaServer Homepage
+homepage_title: "{{ ansible_nas_hostname }} Homepage"
 homepage_locale: en-GB
 
 # Homepage config files - the variables below are formatted to Homepage YAML config files
@@ -29,47 +29,47 @@ homepage_settings_yaml:
   showStats: true
 
 homepage_services_yaml:
-  - Networking:
-      - Router:
-          icon: asus-router
-          href: http://192.168.1.1/
-          description: Unifi Router
+- Networking:
+  - Router:
+      icon: asus-router
+      href: http://192.168.1.1/
+      description: Unifi Router
 
 homepage_widgets_yaml:
-  - search:
-      provider: google # google, duckduckgo, bing, baidu, brave or custom
-      focus: true # Optional, will set focus to the search bar on page load
-      target: _blank # One of _self, _blank, _parent or _top
-  - greeting:
-      text_size: xl
-      text: Ansible-MediaServer
-  - resources:
-      cpu: true
-      memory: true
-      cputemp: true
-      uptime: true
-      units: metric # only used by cpu temp
-      refresh: 60000 # optional, in ms
+- search:
+    provider: google # google, duckduckgo, bing, baidu, brave or custom
+    focus: true # Optional, will set focus to the search bar on page load
+    target: _blank # One of _self, _blank, _parent or _top
+- greeting:
+    text_size: xl
+    text: "{{ ansible_nas_hostname }}"
+- resources:
+    cpu: true
+    memory: true
+    cputemp: true
+    uptime: true
+    units: metric # only used by cpu temp
+    refresh: 60000 # optional, in ms
 
 homepage_bookmarks_yaml:
-  - Developer:
-      - "Ansible-NAS":
-          - abbr: AN
-            href: https://ansible-nas.io/
-      - Github:
-          - abbr: GH
-            href: https://github.com/
-            icon: github
-      - "Hacker News":
-          - abbr: HN
-            href: https://news.ycombinator.com/
-  - Social:
-      - Reddit:
-          - abbr: RE
-            href: https://reddit.com/
-            icon: reddit
-  - Entertainment:
-      - YouTube:
-          - abbr: YT
-            href: https://youtube.com/
-            icon: youtube
+- Developer:
+  - "Ansible-NAS":
+    - abbr: AN
+      href: https://ansible-nas.io/
+  - Github:
+    - abbr: GH
+      href: https://github.com/
+      icon: github
+  - "Hacker News":
+    - abbr: HN
+      href: https://news.ycombinator.com/
+- Social:
+  - Reddit:
+    - abbr: RE
+      href: https://reddit.com/
+      icon: reddit
+- Entertainment:
+  - YouTube:
+    - abbr: YT
+      href: https://youtube.com/
+      icon: youtube
