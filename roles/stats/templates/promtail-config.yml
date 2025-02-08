@@ -7,15 +7,24 @@ positions:
   filename: /data/positions.yml
 
 clients:
-  - url: {{ stats_promtail_loki_url }}
-    tenant_id: 1
+- url: {{ stats_promtail_loki_url }}
+  tenant_id: 1
 
 scrape_configs:
-  - job_name: docker_scrape
-    docker_sd_configs:
-      - host: unix:///var/run/docker.sock
-        refresh_interval: 5s
-    relabel_configs:
-      - source_labels: ['__meta_docker_container_name']
-        regex: '/(.*)'
-        target_label: 'container'
+- job_name: docker_scrape_local
+  docker_sd_configs:
+  - host: unix:///var/run/docker.sock
+    refresh_interval: 5s
+  relabel_configs:
+  - source_labels: [ '__meta_docker_container_name' ]
+    regex: '/(.*)'
+    target_label: 'container'
+
+- job_name: docker_scrape_remote
+  docker_sd_configs:
+  - host: "tcp://{{ ansible_additional_target_ip_1 }}:2375"
+    refresh_interval: 5s
+  relabel_configs:
+  - source_labels: ['__meta_docker_container_name']
+    regex: '/(.*)'
+    target_label: 'container'
