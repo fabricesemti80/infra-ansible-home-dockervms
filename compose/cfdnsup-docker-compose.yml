@@ -1,0 +1,19 @@
+services:
+  cloudflare-dns-updater:
+    image: alpine:latest
+    container_name: cloudflare-dns-updater
+    restart: unless-stopped
+    environment:
+      - CLOUDFLARE_API_TOKEN=your-api-token
+      - ZONE_ID=your-zone-id
+      - DOMAIN=external.example.com
+      - TUNNEL_ID=your-tunnel-id
+      - CRON_SCHEDULE=*/5 * * * *  # Default: Run every 5 minutes
+    volumes:
+      - ./update_dns.sh:/update_dns.sh
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      apk add --no-cache curl jq crond &&
+      chmod +x /update_dns.sh &&
+      echo "$$CRON_SCHEDULE /update_dns.sh >> /var/log/cron.log 2>&1" | crontab - &&
+      crond -f -l 2
