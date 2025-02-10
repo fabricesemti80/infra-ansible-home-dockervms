@@ -9,6 +9,7 @@ services:
       - DOMAIN=${DOMAIN}
       - CLOUDFLARE_TUNNEL_ID=${CLOUDFLARE_TUNNEL_ID}
       - CRON_SCHEDULE=${CRON_SCHEDULE}
+      - TARGET=${TARGET}
     volumes:
       - ./update_dns.sh:/update_dns.sh
     entrypoint: ["/bin/sh", "-c"]
