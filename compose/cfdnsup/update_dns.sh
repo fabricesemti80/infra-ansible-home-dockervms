@@ -51,7 +51,7 @@ else
     --data '{"type":"CNAME","name":"'"$DOMAIN"'","content":"'"$TARGET"'","ttl":1,"proxied":true}')
 
   if echo "$RESPONSE" | grep -q '"success":true'; then
-    log "✅ DNS record created: $DOMAIN → $TARGET"
+    log "🚀 DNS record created: $DOMAIN → $TARGET"
   else
     log "❌ Error creating DNS record: $(echo "$RESPONSE" | jq -r '.errors')"
     exit 1
