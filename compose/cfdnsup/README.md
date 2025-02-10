@@ -12,7 +12,7 @@ Project Folder:
 1. Clone or create the project folder
 2. Make sure 'update_dns.sh' is executable:
    `chmod +x update_dns.sh`
-3. Modify 'docker-compose.yml' and '.env' with your Cloudflare API details
+3. Modify 'docker-compose.yml' and '.env' (copy `.env_example` to `.env`) with your Cloudflare API details
 4. Start the container:
    `docker-compose up -d`
 5. Check logs:
