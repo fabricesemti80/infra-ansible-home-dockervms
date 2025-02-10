@@ -4,11 +4,11 @@ services:
     container_name: cloudflare-dns-updater
     restart: unless-stopped
     environment:
-      - CLOUDFLARE_API_TOKEN=your-api-token
-      - ZONE_ID=your-zone-id
-      - DOMAIN=external.example.com
-      - TUNNEL_ID=your-tunnel-id
-      - CRON_SCHEDULE=*/5 * * * *  # Default: Run every 5 minutes
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - CLOUDFLARE_ZONE_ID=${CLOUDFLARE_ZONE_ID}
+      - DOMAIN=${DOMAIN}
+      - CLOUDFLARE_TUNNEL_ID=${CLOUDFLARE_TUNNEL_ID}
+      - CRON_SCHEDULE=${CRON_SCHEDULE}
     volumes:
       - ./update_dns.sh:/update_dns.sh
     entrypoint: ["/bin/sh", "-c"]
