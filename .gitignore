@@ -21,3 +21,5 @@ Session.vim
 /.idea/
 roles/code-server/tasks/\[mac]ansible-media-srv.code-workspace
 .vscode/settings.json
+
+**/.env
