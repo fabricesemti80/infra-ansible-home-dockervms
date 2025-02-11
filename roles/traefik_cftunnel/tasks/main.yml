@@ -1,0 +1,127 @@
+---
+
+- name: START Traefik CFTunnel
+  block:
+    - name: Create Traefik CFTunnel Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ traefik_cftunnel_data_directory }}"
+        - "{{ traefik_cftunnel_data_directory }}/letsencrypt"
+        - "{{ traefik_cftunnel_data_directory }}/cloudflare"
+
+    - name: Create Traefik CFTunnel Docker Networks
+      community.docker.docker_network:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - traefik
+        - internal
+
+# ---------------------------------- Traefik --------------------------------- #
+    - name: Template Traefik CFTunnel config.toml
+      ansible.builtin.template:
+        src: traefik.toml
+        dest: "{{ traefik_cftunnel_data_directory }}/traefik.toml"
+      register: template_config
+
+    - name: Traefik Docker Container
+      community.docker.docker_container:
+        name: "{{ traefik_cftunnel_container_name }}"
+        image: "{{ traefik_cftunnel_image_name }}:{{ traefik_cftunnel_image_version }}"
+        pull: true
+        network_mode: host #?
+        volumes:
+          - "{{ traefik_cftunnel_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+          - "{{ traefik_cftunnel_data_directory }}/letsencrypt:/letsencrypt:rw"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        env: "{{ traefik_cftunnel_environment_variables }}"
+        restart_policy: unless-stopped
+        memory: "{{ traefik_cftunnel_memory }}"
+        recreate: "{{ template_config is changed }}"
+        labels:
+          homepage.group: Networking
+          homepage.name: Traefik
+          homepage.icon: traefik
+          homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ traefik_cftunnel_port_ui }}"
+          homepage.description: Reverse Proxy
+          homepage.widget.type: traefik
+          homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ traefik_cftunnel_port_ui }}"
+# -------------------------------- Cloudflared ------------------------------- #
+    - name: Create Cloudflared Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ traefik_cftunnel_cloudflared_data_directory }}"
+
+    - name: Cloudflared Docker Container
+      community.docker.docker_container:
+        name: "{{ traefik_cftunnel_cloudflared_container_name }}"
+        image: cloudflare/cloudflared
+        command: tunnel run
+        pull: true
+        restart_policy: unless-stopped
+        memory: "{{ traefik_cftunnel_cloudflared_memory }}"
+        env:
+          TUNNEL_TOKEN: "{{ traefik_cftunnel_cloudflared_tunnel_token }}" #!
+# -------------------------------- Test Application -------------------------- #
+    - name: Test Application Docker Container
+      community.docker.docker_container:
+        name: "externalapp"
+        image: "traefik/whoami"
+        command: ["--name=externalapp"]
+        pull: true
+        networks:
+          - name: traefik
+        labels:
+          - "traefik.enable=true"
+          - "traefik.docker.network=traefik"
+          - "traefik.http.routers.external.rule=Host(`external.yourdomain.com`)"
+          - "traefik.http.routers.external.entrypoints=websecure"
+          - "traefik.http.routers.external.tls=true"
+          - "traefik.http.services.external.loadbalancer.server.port=80"
+          - "traefik.constraint=proxy-public"
+        restart_policy: unless-stopped          
+  when: traefik_cftunnel_enabled is true
+
+- name: STOP Traefik CFTunnel
+  block:
+  # ---------------------------------- Containers --------------------------------- #
+    - name: Stop Traefik
+      community.docker.docker_container:
+        name: "{{ traefik_cftunnel_container_name }}"
+        state: absent
+    - name: Stop Cloudflared
+      community.docker.docker_container:
+        name: "{{ traefik_cftunnel_cloudflared_container_name }}"
+        state: absent
+    - name: Stop Test Application
+      community.docker.docker_container:
+        name: "externalapp"
+        state: absent        
+  # -------------------------------- Directories ------------------------------- #
+    - name: Remove Traefik CFTunnel Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ traefik_cftunnel_data_directory }}"
+        - "{{ traefik_cftunnel_data_directory }}/letsencrypt"
+        - "{{ traefik_cftunnel_data_directory }}/cloudflare"        
+    - name: Remove Cloudflared Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ traefik_cftunnel_cloudflared_data_directory }}"  
+# --------------------------------- Networks --------------------------------- #
+    - name: Create Traefik CFTunnel Docker Networks
+      community.docker.docker_network:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - traefik
+        - internal
+  when: traefik_cftunnel_enabled is false

@@ -421,6 +421,10 @@
       tags:
         - traefik
 
+    - role: traefik_cftunnel
+      tags: 
+      - traefik_cftunnel
+
     - role: transmission
       tags:
         - transmission
