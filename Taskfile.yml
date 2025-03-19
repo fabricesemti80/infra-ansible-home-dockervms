@@ -1,16 +1,7 @@
 version: '3'
 
 vars:
-  TAGS:
-    default: ''
-    sh: |
-      if [ -n "$TAGS" ]; then
-        echo "$TAGS"
-      else
-        echo "Please provide tags (comma-separated):"
-        read input
-        echo "$input"
-      fi
+  TAGS: ''
 
 tasks:
   list:
@@ -53,36 +44,32 @@ tasks:
     vars:
       TAGS: '{{.TAGS}}'
     cmds:
-      - |
-        if [ -z "{{.TAGS}}" ]; then
-          echo "No tags provided. Please provide tags (comma-separated):"
-          read input
-          TAGS=$input
-        else
-          TAGS="{{.TAGS}}"
-        fi
-        echo "Deploying with tags: $TAGS"
-
-
-        ansible-playbook nas.yml -b -K --tags="$TAGS"
+    - |
+      if [ -z "{{.TAGS}}" ]; then
+        echo "No tags provided. Please provide tags (comma-separated):"
+        read input
+        TAGS=$input
+      else
+        TAGS="{{.TAGS}}"
+      fi
+      echo "Deploying with tags: $TAGS"
+      ansible-playbook nas.yml -b -K --tags="$TAGS"
 
   check:tags:
     desc: "Check with specific tags"
     vars:
       TAGS: '{{.TAGS}}'
     cmds:
-      - |
-        if [ -z "{{.TAGS}}" ]; then
-          echo "No tags provided. Please provide tags (comma-separated):"
-          read input
-          TAGS=$input
-        else
-          TAGS="{{.TAGS}}"
-        fi
-        echo "Checking with tags: $TAGS"
-
-
-        ansible-playbook nas.yml -b -K --tags="$TAGS" --check --diff
+    - |
+      if [ -z "{{.TAGS}}" ]; then
+        echo "No tags provided. Please provide tags (comma-separated):"
+        read input
+        TAGS=$input
+      else
+        TAGS="{{.TAGS}}"
+      fi
+      echo "Checking with tags: $TAGS"
+      ansible-playbook nas.yml -b -K --tags="$TAGS" --check --diff
 
   default:
     cmds:
