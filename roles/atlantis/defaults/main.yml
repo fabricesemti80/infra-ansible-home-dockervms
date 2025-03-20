@@ -1,0 +1,23 @@
+---
+atlantis_enabled: false
+atlantis_available_externally: false
+
+# directories
+atlantis_data_directory: "{{ docker_home }}/atlantis"
+
+# network
+atlantis_port: "4141"
+atlantis_hostname: "atlantis"
+
+# specs
+atlantis_memory: 1g
+
+# docker
+atlantis_container_name: atlantis
+
+# Atlantis specific
+atlantis_url: "http://{{ atlantis_hostname }}.{{ ansible_nas_domain }}"
+atlantis_repo_whitelist: "github.com/your-org/*"
+atlantis_github_user: "your-github-username"
+atlantis_github_token: "your-github-token"
+atlantis_github_webhook_secret: "your-webhook-secret"

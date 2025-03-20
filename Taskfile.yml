@@ -1,5 +1,8 @@
 version: '3'
 
+vars:
+  TAGS: ''
+
 tasks:
   list:
     desc: List all available ansible tasks
@@ -37,28 +40,36 @@ tasks:
     - ansible-playbook nas.yml -b -K -l hms --check --diff
 
   deploy:tags:
-    desc: Deploy specific tagged tasks
-    interactive: true
+    desc: "Deploy with specific tags"
+    vars:
+      TAGS: '{{.TAGS}}'
     cmds:
     - |
-      echo "Available tags based on codebase:"
-      echo "- download-tools (bazarr, deluge, get_iplayer, lidarr, mylar, ombi, prowlarr, sabnzbd, youtubedlmaterial)"
-      echo "- system-tools (duplicacy, duplicati)"
-      echo "- home-automation (esphome)"
-      read -p "Enter tags (comma-separated): " tags
-      ansible-playbook nas.yml -b -K --tags="$tags"
+      if [ -z "{{.TAGS}}" ]; then
+        echo "No tags provided. Please provide tags (comma-separated):"
+        read input
+        TAGS=$input
+      else
+        TAGS="{{.TAGS}}"
+      fi
+      echo "Deploying with tags: $TAGS"
+      ansible-playbook nas.yml -b -K --tags="$TAGS"
 
   check:tags:
-    desc: Dry-run tagged tasks with diff
-    interactive: true
+    desc: "Check with specific tags"
+    vars:
+      TAGS: '{{.TAGS}}'
     cmds:
     - |
-      echo "Available tags based on codebase:"
-      echo "- download-tools (bazarr, deluge, get_iplayer, lidarr, mylar, ombi, prowlarr, sabnzbd, youtubedlmaterial)"
-      echo "- system-tools (duplicacy, duplicati)"
-      echo "- home-automation (esphome)"
-      read -p "Enter tags (comma-separated): " tags
-      ansible-playbook nas.yml -b -K --tags="$tags" --check --diff
+      if [ -z "{{.TAGS}}" ]; then
+        echo "No tags provided. Please provide tags (comma-separated):"
+        read input
+        TAGS=$input
+      else
+        TAGS="{{.TAGS}}"
+      fi
+      echo "Checking with tags: $TAGS"
+      ansible-playbook nas.yml -b -K --tags="$TAGS" --check --diff
 
   default:
     cmds:
