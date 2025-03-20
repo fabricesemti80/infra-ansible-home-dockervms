@@ -20,3 +20,5 @@ bazarr_memory: 1g
 
 # docker
 bazarr_container_name: bazarr
+
+bazarr_api_key: 111222233333

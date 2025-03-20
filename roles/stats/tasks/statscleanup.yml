@@ -1,0 +1,18 @@
+
+- name: Remove stats directory
+  block:
+
+    - name: Remove stats directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ docker_home }}/stats"
+        - "{{ stats_telegraf_config_directory }}"
+        - "{{ stats_prometheus_data_directory}}"
+        - "{{ stats_grafana_data_directory }}"
+        - "{{ stats_grafana_config_directory }}"
+        - "{{ stats_grafana_config_directory }}/provisioning"        
+        - "{{ stats_grafana_config_directory }}/provisioning/datasources"
+
+  when: stats_enabled is false

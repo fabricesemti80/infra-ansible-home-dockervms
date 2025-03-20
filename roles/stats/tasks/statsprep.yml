@@ -1,0 +1,17 @@
+- name: Create stats directory
+  block:
+
+    - name: Create stats directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "{{ docker_home }}/stats"
+        - "{{ stats_telegraf_config_directory }}"
+        - "{{ stats_prometheus_data_directory}}"
+        - "{{ stats_grafana_data_directory }}"
+        - "{{ stats_grafana_config_directory }}"
+        - "{{ stats_grafana_config_directory }}/provisioning"        
+        - "{{ stats_grafana_config_directory }}/provisioning/datasources"
+
+  when: stats_enabled is true

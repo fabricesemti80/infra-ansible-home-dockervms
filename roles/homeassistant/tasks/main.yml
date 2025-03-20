@@ -1,38 +1,66 @@
 ---
 - name: Start Homeassistant
   block:
-    - name: Create Home Assistant Directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-      with_items:
-        - "{{ homeassistant_data_directory }}/config"
+  - name: Create Home Assistant Directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ homeassistant_data_directory }}/config"
 
-    - name: Home Assistant Docker Container
-      community.docker.docker_container:
-        name: "{{ homeassistant_container_name }}"
-        image: "{{ homeassistant_image_name }}:{{ homeassistant_image_version }}"
-        pull: true
-        volumes:
-          - "{{ homeassistant_data_directory }}/config:/config:rw"
-        network_mode: host
-        restart_policy: unless-stopped
-        env:
-          TZ: "{{ ansible_nas_timezone }}"
-        labels:
-          traefik.enable: "{{ homeassistant_available_externally | string }}"
-          traefik.http.routers.homeassistant.rule: "Host(`{{ homeassistant_hostname }}.{{ ansible_nas_domain }}`)"
-          traefik.http.routers.homeassistant.tls.certresolver: "letsencrypt"
-          traefik.http.routers.homeassistant.tls.domains[0].main: "{{ ansible_nas_domain }}"
-          traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-          traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
-        memory: "{{ homeassistant_memory }}"
+  - name: Template Hass config
+    ansible.builtin.template:
+      src: hass-configuration.yaml
+      dest: "{{ homeassistant_data_directory }}/config/configuration.yaml"
+    register: hass_config
+
+  - name: Home Assistant Docker Container
+    community.docker.docker_container:
+      name: "{{ homeassistant_container_name }}"
+      image: "{{ homeassistant_image_name }}:{{ homeassistant_image_version }}"
+      pull: true
+      volumes:
+      - "{{ homeassistant_data_directory }}/config:/config:rw"
+      network_mode: host
+      restart_policy: unless-stopped
+      restart: "{{ hass_config is changed }}"
+      env:
+        TZ: "{{ ansible_nas_timezone }}"
+      labels:
+        traefik.enable: "{{ homeassistant_available_externally | string }}"
+        traefik.http.routers.homeassistant.rule: "Host(`{{ homeassistant_hostname }}.{{ ansible_nas_domain }}`)"
+        traefik.http.routers.homeassistant.tls.certresolver: "letsencrypt"
+        traefik.http.routers.homeassistant.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        traefik.http.routers.homeassistant.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
+        ## HomePage Widget
+        homepage.group: Home
+        homepage.name: Home Assistant
+        homepage.icon: home-assistant.png
+        homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ 8123 }}"
+        homepage.description: Container management
+        homepage.widget.type: homeassistant
+        homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ 8123 }}"
+        homepage.widget.key: ""
+        homepage.widget.custom:
+        - state: weather.forecast_home
+          label: wind speed
+          value: "{attributes.wind_speed} {attributes.wind_speed_unit}"
+      memory: "{{ homeassistant_memory }}"
   when: homeassistant_enabled is true
 
 - name: Stop homeassistant
   block:
-    - name: Stop homeassistant
-      community.docker.docker_container:
-        name: "{{ homeassistant_container_name }}"
-        state: absent
+
+  - name: Stop homeassistant
+    community.docker.docker_container:
+      name: "{{ homeassistant_container_name }}"
+      state: absent
+  - name: Remove Home Assistant Directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ homeassistant_data_directory }}/config"
+
   when: homeassistant_enabled is false

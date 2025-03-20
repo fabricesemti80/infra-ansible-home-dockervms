@@ -1,5 +1,5 @@
 ---
-- name: Start Grafana
+- name: START Grafana
   block:
     - name: Create Grafana Directories
       ansible.builtin.file:
@@ -59,11 +59,24 @@
           homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ stats_grafana_port }}"
           homepage.description: Dashboards and centralized observability.
   when: stats_enabled is true
-
-- name: Stop Grafana
+  
+- name: STOP Grafana
   block:
-    - name: Stop Grafana
+
+    - name: Stop Grafana container
       community.docker.docker_container:
         name: "{{ stats_grafana_container_name }}"
         state: absent
+
+    - name: Remove Grafana directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ stats_grafana_data_directory }}"
+        - "{{ stats_grafana_config_directory }}"
+        - "{{ stats_grafana_config_directory }}/dashboards"
+        - "{{ stats_grafana_config_directory }}/provisioning/datasources"
+        - "{{ stats_grafana_config_directory }}/provisioning/dashboards"
+
   when: stats_enabled is false

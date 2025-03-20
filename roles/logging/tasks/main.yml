@@ -1,12 +1,14 @@
 ---
-- name: Start logging stack
+- name: START logging stack
   block:
     - name: Enable logging roles
       ansible.builtin.set_fact:
-        grafana_enabled: true
+        stats_enabled: true
+        stats_internet_speed_test_enabled: true
+        # grafana_enabled: true
         minio_enabled: true
-        loki_enabled: true
-        promtail_enabled: true
+        # loki_enabled: true
+        # promtail_enabled: true
   when: logging_stack_enabled is true
   # vars:
   #   minio_enabled: true
@@ -14,14 +16,16 @@
   #   promtail_enabled: true
 
 
-- name: Stop logging stack
+- name: STOP logging stack
   block:
     - name: Disable logging roles
       ansible.builtin.set_fact:
-        grafana_enabled: false
+        stats_enabled: false
+        stats_internet_speed_test_enabled: false   
+        # grafana_enabled: false
         minio_enabled: false
-        loki_enabled: false
-        promtail_enabled: false
+        # loki_enabled: false
+        # promtail_enabled: false
   when: logging_stack_enabled is false
   # vars:
   #   minio_enabled: false

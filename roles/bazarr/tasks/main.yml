@@ -39,6 +39,7 @@
           homepage.description: Manage subtitles
           homepage.widget.type: bazarr
           homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ bazarr_port }}"
+          homepage.widget.key: "{{ bazarr_api_key }}"
   when: bazarr_enabled is true
 
 - name: Stop Bazarr

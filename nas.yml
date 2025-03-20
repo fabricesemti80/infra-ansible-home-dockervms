@@ -3,464 +3,475 @@
   hosts: all
 
   roles:
-    ###
-    ### Requirements
-    ###
-    - role: ansible-nas-users
-      tags:
-        - ansible-nas-users
-        - ansible-nas
-
-    - role: vladgh.samba.server
-      tags:
-        - samba
-        - skip_ansible_lint
-
-    - role: geerlingguy.nfs
-      tags:
-        - nfs
-        - skip_ansible_lint
-
-    - role: geerlingguy.docker
-      vars:
-        docker_apt_filename: download_docker_com_linux_ubuntu
-      tags:
-        - docker
-        - skip_ansible_lint
-
-    ###
-    ### Ansible-NAS Roles
-    ###
-    - role: ansible-nas-general
-      tags:
-        - ansible-nas-general
-        - ansible-nas
-
-    - role: ansible-nas-docker
-      tags:
-        - ansible-nas-docker
-        - ansible-nas
-
-    ###
-    ### Stacks
-    ###
-
-    - role: logging
-      tags:
-        - logging
-
-
-    ###
-    ### Applications
-    ###
-    - role: airsonic
-      tags:
-        - airsonic
-
-    - role: apcupsd
-      tags:
-        - apcupsd
-
-    - role: bazarr
-      tags:
-        - bazarr
-
-    - role: bitwarden
-      tags:
-        - bitwarden
-
-    - role: booksonic
-      tags:
-        - booksonic
-
-    - role: calibre
-      tags:
-        - calibre
-
-    - role: calibreweb
-      tags:
-        - calibreweb
-
-    - role: cloudcmd
-      tags:
-        - cloudcmd
-
-    - role: cloudflare_ddns
-      tags:
-        - cloudflare_ddns
-
-    - role: code-server
-      tags:
-        - code-server
-
-    - role: couchpotato
-      tags:
-        - couchpotato
-
-    - role: dashy
-      tags:
-        - dashy
-
-    - role: ddns_updater
-      tags:
-        - ddns_updater
-
-    - role: deluge
-      tags:
-        - deluge
-
-    - role: dokuwiki
-      tags:
-        - dokuwiki
-
-    - role: drone-ci
-      tags:
-        - drone_ci
-
-    - role: duplicacy
-      tags:
-        - duplicacy
-
-    - role: duplicati
-      tags:
-        - duplicati
-
-    - role: emby
-      tags:
-        - emby
-
-    - role: esphome
-      tags:
-        - esphome
-
-    - role: firefly
-      tags:
-        - firefly
-
-    - role: flaresolverr
-      tags:
-        - flaresolverr
-
-    - role: freshrss
-      tags:
-        - freshrss
-
-    - role: get_iplayer
-      tags:
-        - get_iplayer
-
-    - role: gitea
-      tags:
-        - gitea
-
-    - role: gitlab
-      tags:
-        - gitlab
-
-    - role: glances
-      tags:
-        - glances
-
-    - role: gotify
-      tags:
-        - gotify
-
-    - role: guacamole
-      tags:
-        - guacamole
-
-    - role: healthchecks.io
-      tags:
-        - healthchecks.io
-
-    - role: heimdall
-      tags:
-        - heimdall
-
-    - role: hello_world
-      tags:
-        - hello_world
-
-    - role: homeassistant
-      tags:
-        - homeassistant
-
-    - role: homebridge
-      tags:
-        - homebridge
-
-    - role: homepage
-      tags:
-        - homepage
-
-    - role: ispyagentdvr
-      tags:
-        - ispyagentdvr
-
-    - role: jackett
-      tags:
-        - jackett
-
-    - role: jellyfin
-      tags:
-        - jellyfin
-
-    - role: joomla
-      tags:
-        - joomla
-
-    - role: komga
-      tags:
-        - komga
-
-    - role: krusader
-      tags:
-        - krusader
-
-    - role: lidarr
-      tags:
-        - lidarr
-
-    - role: loki
-      tags:
-        - loki
-
-    - role: mealie
-      tags:
-        - mealie
-
-    - role: minecraft-bedrock-server
-      tags:
-        - minecraft-bedrock-server
-
-    - role: minecraft-server
-      tags:
-        - minecraft-server
-
-    - role: minidlna
-      tags:
-        - minidlna
-
-    - role: miniflux
-      tags:
-        - miniflux
-
-    - role: minio
-      tags:
-        - minio
-
-    - role: mosquitto
-      tags:
-        - mosquitto
-
-    - role: mumble
-      tags:
-        - mumble
-
-    - role: mylar
-      tags:
-        - mylar
-
-    - role: mymediaforalexa
-      tags:
-        - mymediaforalexa
-
-    - role: n8n
-      tags:
-        - n8n
-
-    - role: navidrome
-      tags:
-        - navidrome
-
-    - role: netbootxyz
-      tags:
-        - netbootxyz
-
-    - role: netdata
-      tags:
-        - netdata
-
-    - role: nextcloud
-      tags:
-        - nextcloud
-
-    - role: nomad
-      tags:
-        - nomad
-
-    - role: nzbget
-      tags:
-        - nzbget
-
-    - role: octoprint
-      tags:
-        - octoprint
-
-    - role: ombi
-      tags:
-        - ombi
-
-    - role: openhab
-      tags:
-        - openhab
-
-    - role: organizr
-      tags:
-        - organizr
-
-    - role: overseerr
-      tags:
-        - overseerr
-
-    - role: paperless_ng
-      tags:
-        - paperless_ng
-
-    - role: piwigo
-      tags:
-        - piwigo
-
-    - role: plex
-      tags:
-        - plex
-
-    - role: portainer
-      tags:
-        - portainer
-
-    - role: prowlarr
-      tags:
-        - prowlarr
-
-    - role: promtail
-      tags:
-        - promtail
-
-    - role: pyload
-      tags:
-        - pyload
-
-    - role: pytivo
-      tags:
-        - pytivo
-
-    - role: radarr
-      tags:
-        - radarr
-
-    - role: romm
-      tags:
-        - romm
-
-    - role: route53_ddns
-      tags:
-        - route53_ddns
-
-    - role: rssbridge
-      tags:
-        - rssbridge
-
-    - role: sabnzbd
-      tags:
-        - sabnzbd
-
-    - role: sickchill
-      tags:
-        - sickchill
-
-    - role: silverbullet
-      tags:
-        - silverbullet
-
-    - role: sonarr
-      tags:
-        - sonarr
-
-    - role: speedtest-tracker
-      tags:
-        - speedtest-tracker
-
-    - role: stats
-      tags:
-        - stats
-
-    - role: syncthing
-      tags:
-        - syncthing
-
-    - role: tailscale
-      tags:
-        - tailscale
-
-    - role: tautulli
-      tags:
-        - tautulli
-
-    - role: thelounge
-      tags:
-        - thelounge
-
-    - role: threadfin
-      tags:
-        - threadfin
-
-    - role: tiddlywiki
-      tags:
-        - tiddlywiki
-
-    - role: timemachine
-      tags:
-        - timemachine
-
-    - role: traefik
-      tags:
-        - traefik
-
-    - role: transmission
-      tags:
-        - transmission
-
-    - role: transmission-with-openvpn
-      tags:
-        - transmission_with_openvpn
-
-    - role: ubooquity
-      tags:
-        - ubooquity
-
-    - role: utorrent
-      tags:
-        - utorrent
-
-    - role: valheim
-      tags:
-        - valheim
-
-    - role: virtual_desktop
-      tags:
-        - virtual_desktop
-
-    - role: wallabag
-      tags:
-        - wallabag
-
-    - role: watchtower
-      tags:
-        - watchtower
-
-    - role: wireshark
-      tags:
-        - wireshark
-
-    - role: woodpecker-ci
-      tags:
-        - woodpecker_ci
-
-    - role: youtubedlmaterial
-      tags:
-        - youtubedlmaterial
-
-    - role: znc
-      tags:
-        - znc
+  ###
+  ### Requirements
+  ###
+  - role: ansible-nas-users
+    tags:
+    - ansible-nas-users
+    - ansible-nas
+
+  - role: vladgh.samba.server
+    tags:
+    - samba
+    - skip_ansible_lint
+
+  - role: geerlingguy.nfs
+    tags:
+    - nfs
+    - skip_ansible_lint
+
+  - role: geerlingguy.docker
+    vars:
+      docker_apt_filename: download_docker_com_linux_ubuntu
+    tags:
+    - docker
+    - skip_ansible_lint
+
+  ###
+  ### Ansible-NAS Roles
+  ###
+  - role: ansible-nas-general
+    tags:
+    - ansible-nas-general
+    - ansible-nas
+
+  - role: ansible-nas-docker
+    tags:
+    - ansible-nas-docker
+    - ansible-nas
+
+  ###
+  ### Stacks
+  ###
+
+  - role: logging
+    tags:
+    - logging
+
+  ###
+  ### Applications
+  ###
+  - role: airsonic
+    tags:
+    - airsonic
+
+  - role: apcupsd
+    tags:
+    - apcupsd
+
+  - role: atlantis
+    tags:
+    - atlantis
+
+  - role: bazarr
+    tags:
+    - bazarr
+
+  - role: bitwarden
+    tags:
+    - bitwarden
+
+  - role: booksonic
+    tags:
+    - booksonic
+
+  - role: calibre
+    tags:
+    - calibre
+
+  - role: calibreweb
+    tags:
+    - calibreweb
+
+  - role: cloudcmd
+    tags:
+    - cloudcmd
+
+  - role: cloudflare_ddns
+    tags:
+    - cloudflare_ddns
+
+  - role: cloudflared
+    tags:
+    - cloudflared
+
+  - role: code-server
+    tags:
+    - code-server
+
+  - role: couchpotato
+    tags:
+    - couchpotato
+
+  - role: dashy
+    tags:
+    - dashy
+
+  - role: ddns_updater
+    tags:
+    - ddns_updater
+
+  - role: deluge
+    tags:
+    - deluge
+
+  - role: dokuwiki
+    tags:
+    - dokuwiki
+
+  - role: drone-ci
+    tags:
+    - drone_ci
+
+  - role: duplicacy
+    tags:
+    - duplicacy
+
+  - role: duplicati
+    tags:
+    - duplicati
+
+  - role: emby
+    tags:
+    - emby
+
+  - role: esphome
+    tags:
+    - esphome
+
+  - role: firefly
+    tags:
+    - firefly
+
+  - role: flaresolverr
+    tags:
+    - flaresolverr
+
+  - role: freshrss
+    tags:
+    - freshrss
+
+  - role: get_iplayer
+    tags:
+    - get_iplayer
+
+  - role: gitea
+    tags:
+    - gitea
+
+  - role: gitlab
+    tags:
+    - gitlab
+
+  - role: glances
+    tags:
+    - glances
+
+  - role: gotify
+    tags:
+    - gotify
+
+  - role: guacamole
+    tags:
+    - guacamole
+
+  - role: healthchecks.io
+    tags:
+    - healthchecks.io
+
+  - role: heimdall
+    tags:
+    - heimdall
+
+  - role: hello_world
+    tags:
+    - hello_world
+
+  - role: homeassistant
+    tags:
+    - homeassistant
+
+  - role: homebridge
+    tags:
+    - homebridge
+
+  - role: homepage
+    tags:
+    - homepage
+
+  - role: ispyagentdvr
+    tags:
+    - ispyagentdvr
+
+  - role: jackett
+    tags:
+    - jackett
+
+  - role: jellyfin
+    tags:
+    - jellyfin
+
+  - role: joomla
+    tags:
+    - joomla
+
+  - role: komga
+    tags:
+    - komga
+
+  - role: krusader
+    tags:
+    - krusader
+
+  - role: lidarr
+    tags:
+    - lidarr
+
+  # - role: loki
+  #   tags:
+  #     - loki
+
+  - role: mealie
+    tags:
+    - mealie
+
+  - role: minecraft-bedrock-server
+    tags:
+    - minecraft-bedrock-server
+
+  - role: minecraft-server
+    tags:
+    - minecraft-server
+
+  - role: minidlna
+    tags:
+    - minidlna
+
+  - role: miniflux
+    tags:
+    - miniflux
+
+  - role: minio
+    tags:
+    - minio
+
+  - role: mosquitto
+    tags:
+    - mosquitto
+
+  - role: mumble
+    tags:
+    - mumble
+
+  - role: mylar
+    tags:
+    - mylar
+
+  - role: mymediaforalexa
+    tags:
+    - mymediaforalexa
+
+  - role: n8n
+    tags:
+    - n8n
+
+  - role: navidrome
+    tags:
+    - navidrome
+
+  - role: netbootxyz
+    tags:
+    - netbootxyz
+
+  - role: netdata
+    tags:
+    - netdata
+
+  - role: nextcloud
+    tags:
+    - nextcloud
+
+  - role: nomad
+    tags:
+    - nomad
+
+  - role: nzbget
+    tags:
+    - nzbget
+
+  - role: octoprint
+    tags:
+    - octoprint
+
+  - role: ombi
+    tags:
+    - ombi
+
+  - role: openhab
+    tags:
+    - openhab
+
+  - role: organizr
+    tags:
+    - organizr
+
+  - role: overseerr
+    tags:
+    - overseerr
+
+  - role: paperless_ng
+    tags:
+    - paperless_ng
+
+  - role: piwigo
+    tags:
+    - piwigo
+
+  - role: plex
+    tags:
+    - plex
+
+  - role: portainer
+    tags:
+    - portainer
+
+  - role: prowlarr
+    tags:
+    - prowlarr
+
+  # - role: promtail
+  #   tags:
+  #     - promtail
+
+  - role: pyload
+    tags:
+    - pyload
+
+  - role: pytivo
+    tags:
+    - pytivo
+
+  - role: radarr
+    tags:
+    - radarr
+
+  - role: romm
+    tags:
+    - romm
+
+  - role: route53_ddns
+    tags:
+    - route53_ddns
+
+  - role: rssbridge
+    tags:
+    - rssbridge
+
+  - role: sabnzbd
+    tags:
+    - sabnzbd
+
+  - role: sickchill
+    tags:
+    - sickchill
+
+  - role: silverbullet
+    tags:
+    - silverbullet
+
+  - role: sonarr
+    tags:
+    - sonarr
+
+  - role: speedtest-tracker
+    tags:
+    - speedtest-tracker
+
+  - role: stats
+    tags:
+    - stats
+
+  - role: syncthing
+    tags:
+    - syncthing
+
+  - role: tailscale
+    tags:
+    - tailscale
+
+  - role: tautulli
+    tags:
+    - tautulli
+
+  - role: thelounge
+    tags:
+    - thelounge
+
+  - role: threadfin
+    tags:
+    - threadfin
+
+  - role: tiddlywiki
+    tags:
+    - tiddlywiki
+
+  - role: timemachine
+    tags:
+    - timemachine
+
+  - role: traefik
+    tags:
+    - traefik
+
+  # - role: traefik_cftunnel
+  #   tags:
+  #   - traefik_cftunnel
+
+  - role: transmission
+    tags:
+    - transmission
+
+  - role: transmission-with-openvpn
+    tags:
+    - transmission_with_openvpn
+
+  - role: ubooquity
+    tags:
+    - ubooquity
+
+  - role: utorrent
+    tags:
+    - utorrent
+
+  - role: valheim
+    tags:
+    - valheim
+
+  - role: virtual_desktop
+    tags:
+    - virtual_desktop
+
+  - role: wallabag
+    tags:
+    - wallabag
+
+  - role: watchtower
+    tags:
+    - watchtower
+
+  - role: wireshark
+    tags:
+    - wireshark
+
+  - role: woodpecker-ci
+    tags:
+    - woodpecker_ci
+
+  - role: youtubedlmaterial
+    tags:
+    - youtubedlmaterial
+
+  - role: znc
+    tags:
+    - znc

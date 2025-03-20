@@ -1,0 +1,18 @@
+---
+cloudflared_enabled: false
+# cloudflared_available_externally: false
+
+# directories
+cloudflared_data_directory: "{{ docker_home }}/cloudflared"
+
+# network
+# cloudflared_port: "9999"
+cloudflared_hostname: "cloudflared"
+
+# specs
+cloudflared_memory: 1g
+
+# docker
+cloudflared_container_name: cloudflared
+
+cloudflared_tunnel_token: 111222223333

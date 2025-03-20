@@ -1,5 +1,5 @@
 ---
-- name: Start Exporters
+- name: START Exporters
   block:
     - name: Smartctl Exporter Docker Container
       community.docker.docker_container:
@@ -34,20 +34,34 @@
         image: "{{ stats_speedtest_docker_image_name }}:{{ stats_speedtest_docker_image_version }}"
         pull: true
         ports:
-          "{{ stats_speedtest_exporter_port }}:9798"
+          - "{{ stats_speedtest_exporter_port }}:9798"
         restart_policy: unless-stopped
         memory: "{{ stats_speedtest_exporter_memory }}"
+        env:
+          SPEEDTEST_PORT: "9798"
+        healthcheck:
+          test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:9798/"]
+          interval: 30s
+          timeout: 10s
+          retries: 3      
       when: stats_internet_speed_test_enabled
   when: stats_enabled is true
 
-- name: Stop Exporters
+- name: STOP Exporters
   block:
     - name: Stop Smartctl Exporter
       community.docker.docker_container:
         name: "{{ stats_smartctl_container_name }}"
         state: absent
+
+    - name: Stop Hddtemp Exporter
+      community.docker.docker_container:
+        name: "{{ stats_hddtemp_docker_container_name }}"
+        state: absent
+
     - name: Stop Speedtest Exporter
       community.docker.docker_container:
         name: "{{ stats_speedtest_container_name }}"
         state: absent
+      when: not stats_internet_speed_test_enabled | bool
   when: stats_enabled is false
