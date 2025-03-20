@@ -14,6 +14,7 @@
         name: "{{ tailscale_container_name }}"
         image: tailscale/tailscale
         hostname: "{{ tailscale_hostname }}"
+
         pull: true
         volumes:
           - "{{ tailscale_data_directory }}:/var/lib/tailscale:rw"
