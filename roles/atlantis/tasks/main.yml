@@ -1,0 +1,57 @@
+---
+- name: Start Atlantis
+  block:
+  - name: Create Atlantis Directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ atlantis_data_directory }}"
+    - "{{ atlantis_data_directory }}/docker"
+    - "{{ atlantis_data_directory }}/config"
+
+  - name: Copy Dockerfile for Atlantis
+    ansible.builtin.copy:
+      src: "{{ role_path }}/docker/Dockerfile" # Path to the local Dockerfile
+      dest: "{{ atlantis_data_directory }}/docker/Dockerfile" # Destination on the target server
+
+  - name: Copy Config folder for Atlantis
+    ansible.builtin.copy:
+      src: "{{ role_path }}/config" # Path to the local Dockerfile
+      dest: "{{ atlantis_data_directory }}/config" # Destination on the target server
+
+  - name: Build Custom Atlantis Docker Image
+    community.docker.docker_image:
+      name: custom-atlantis
+      tag: latest
+      build:
+        path: "{{ atlantis_data_directory }}/docker" # Path to the Dockerfile directory on the target server
+      source: build
+
+  - name: Atlantis Docker Container
+    community.docker.docker_container:
+      name: "{{ atlantis_container_name }}"
+      image: custom-atlantis:latest # Use the custom image
+      volumes:
+      - "{{ atlantis_data_directory }}:/atlantis:rw"
+      ports:
+      - "{{ atlantis_port }}:4141"
+      restart_policy: unless-stopped
+      memory: "{{ atlantis_memory }}"
+      env: "{{ atlantis_environment_variables }}"
+      labels:
+        traefik.enable: "{{ atlantis_available_externally | string }}"
+        traefik.http.routers.atlantis.rule: "Host(`{{ atlantis_hostname }}.{{ ansible_nas_domain }}`)"
+        traefik.http.routers.atlantis.tls.certresolver: "letsencrypt"
+        traefik.http.routers.atlantis.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        traefik.http.routers.atlantis.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        traefik.http.services.atlantis.loadbalancer.server.port: "4141"
+  when: atlantis_enabled is true
+
+- name: Stop Atlantis
+  block:
+  - name: Stop Atlantis
+    community.docker.docker_container:
+      name: "{{ atlantis_container_name }}"
+      state: absent
+  when: atlantis_enabled is false
