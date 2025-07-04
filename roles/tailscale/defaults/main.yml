@@ -12,8 +12,6 @@ tailscale_data_directory: "{{ docker_home }}/tailscale"
 # network
 # tailscale_port: "8093"
 # tailscale_webserver_port: "8094"
-tailscale_hostname: "tailscale"
-
 # env
 # tailscale_password: ""
 tailscale_cli_args: ""
@@ -26,4 +24,3 @@ tailscale_memory: 1g
 tailscale_container_name: tailscale
 
 tailscale_hostname: "{{ ansible_nas_hostname }}"
-
