@@ -18,6 +18,10 @@ tailscale_cli_args: ""
 tailscale_security_opts: "seccomp=unconfined" # For why this is here, see https://github.com/linuxserver/docker-tailscale/issues/102
 
 # specs
+# SSH
+tailscale_ssh_enabled: false
+
+# specs
 tailscale_memory: 1g
 
 # docker
