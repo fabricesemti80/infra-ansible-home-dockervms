@@ -68,6 +68,10 @@
     tags:
     - bazarr
 
+  - role: beszel
+    tags:
+    - beszel
+
   - role: bitwarden
     tags:
     - bitwarden

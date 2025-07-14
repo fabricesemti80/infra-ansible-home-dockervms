@@ -1,0 +1,14 @@
+---
+- name: Create beszel-agent container
+  community.docker.docker_container:
+    name: beszel-agent
+    image: henrygd/beszel-agent
+    restart_policy: unless-stopped
+    network_mode: host
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    # monitor other disks / partitions by mounting a folder in /extra-filesystems
+    # - /mnt/disk/.beszel:/extra-filesystems/sda1:ro
+    env:
+      LISTEN: "{{ beszel_listen_port }}"
+      KEY: "{{ beszel_key }}"
