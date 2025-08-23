@@ -31,9 +31,14 @@ homepage_settings_yaml:
 homepage_services_yaml:
 - Networking:
   - Router:
-      icon: asus-router
+      icon: mdi-router-network-wireless
       href: http://192.168.1.1/
       description: Unifi Router
+- System Tools:
+  - Beszel:
+      icon: mdi-monitor-dashboard # https://gethomepage.dev/configs/services/#icons
+      href: http://10.0.40.21:8090/
+      description: Beszel Hub
 
 homepage_widgets_yaml:
 - search:
