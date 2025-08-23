@@ -1,5 +1,5 @@
 ---
-paperless_ng_enabled: false
+paperless_ng_enabled: false #disabled
 paperless_ng_available_externally: false
 
 # directories

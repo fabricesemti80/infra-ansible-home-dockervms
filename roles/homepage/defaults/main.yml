@@ -39,6 +39,10 @@ homepage_services_yaml:
       icon: mdi-monitor-dashboard # https://gethomepage.dev/configs/services/#icons
       href: http://10.0.40.21:8090/
       description: Beszel Hub
+  - Portainer-HUS:
+      icon: mdi-docker
+      href: http://10.0.40.21:19000/
+      description: Portainer for HUS
 
 homepage_widgets_yaml:
 - search:

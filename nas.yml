@@ -328,6 +328,10 @@
     tags:
     - paperless_ng
 
+  - role: paperless_ngx
+    tags:
+    - paperless_ngx
+
   - role: piwigo
     tags:
     - piwigo
