@@ -1,3 +1,5 @@
 ---
-beszel_listen_port: "45876"
-beszel_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBqxCUuMUQG3gH0U+8rb1Qn5Hja87MeVDWnnt/tMqZ6S"
+beszel_server_enabled: false
+beszel_agent_enabled: false
+beszel_deploy_server: false
+beszel_deploy_agent: false

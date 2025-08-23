@@ -1,14 +1,69 @@
 ---
-- name: Create beszel-agent container
-  community.docker.docker_container:
+- name: Create beszel data directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_home }}/beszel"
+    state: directory
+
+- name: Create beszel socket directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_home }}/beszel/socket"
+    state: directory
+
+- name: Deploy beszel-server container
+  become: true
+  docker_container:
+    name: beszel
+    image: henrygd/beszel:latest
+    pull: true
+    restart_policy: unless-stopped
+    ports:
+    - "8090:8090"
+    volumes:
+    - "{{ docker_home }}/beszel:/beszel_data"
+    - "{{ docker_home }}/beszel/socket:/beszel_socket"
+  when: beszel_deploy_server
+
+- name: Stop and remove beszel container
+  become: true
+  block:
+  - name: Stop beszel container
+    community.docker.docker_container:
+      name: beszel
+      state: absent
+  when: not beszel_deploy_server
+
+- name: Create beszel-agent data directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_home }}/beszel-agent"
+    state: directory
+  when: beszel_deploy_agent
+
+- name: Deploy beszel-agent container
+  become: true
+  docker_container:
     name: beszel-agent
-    image: henrygd/beszel-agent
+    image: henrygd/beszel-agent:latest
+    pull: true
     restart_policy: unless-stopped
     network_mode: host
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    # monitor other disks / partitions by mounting a folder in /extra-filesystems
-    # - /mnt/disk/.beszel:/extra-filesystems/sda1:ro
+    - "{{ docker_home }}/beszel-agent:/var/lib/beszel-agent"
     env:
-      LISTEN: "{{ beszel_listen_port }}"
-      KEY: "{{ beszel_key }}"
+      LISTEN: "45876"
+      KEY: "{{ beszel_agent_key }}"
+      TOKEN: "{{ beszel_agent_token }}"
+      HUB_URL: "{{ beszel_hub_url }}"
+  when: beszel_deploy_agent
+
+- name: Stop and remove beszel-agent container
+  become: true
+  block:
+  - name: Stop beszel-agent container
+    community.docker.docker_container:
+      name: beszel-agent
+      state: absent
+  when: not beszel_deploy_agent
