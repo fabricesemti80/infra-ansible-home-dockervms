@@ -20,6 +20,7 @@ tailscale_security_opts: "seccomp=unconfined" # For why this is here, see https:
 # specs
 # SSH
 tailscale_ssh_enabled: false
+tailscale_exit_node_enabled: false
 
 # specs
 tailscale_memory: 1g

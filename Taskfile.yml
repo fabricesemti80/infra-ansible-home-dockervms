@@ -4,6 +4,10 @@ vars:
   TAGS: ''
 
 tasks:
+  init:
+    desc: Install requirements
+    cmds:
+    - ansible-galaxy install -r requirements.yml
   list:
     desc: List all available ansible tasks
     cmds:

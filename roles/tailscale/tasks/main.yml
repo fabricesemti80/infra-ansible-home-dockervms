@@ -24,7 +24,7 @@
       - "net_admin"
       env:
         TS_AUTHKEY: "{{ tailscale_auth_key }}"
-        TS_EXTRA_ARGS: "{% if tailscale_ssh_enabled %}--ssh{% endif %}"
+        TS_EXTRA_ARGS: "{% if tailscale_ssh_enabled %}--ssh {% endif %}{% if tailscale_exit_node_enabled %}--advertise-exit-node {% endif %}"
         TS_STATE_DIR: "/var/lib/tailscale"
         TS_USERSPACE: "false"
         TZ: "{{ ansible_nas_timezone }}"
