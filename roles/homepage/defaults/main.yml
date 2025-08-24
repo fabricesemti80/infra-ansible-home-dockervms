@@ -51,7 +51,7 @@ homepage_services_yaml:
     - HUS Beszel:
         icon: sh-beszel
         href: http://10.0.40.21:8090/
-        description: Beszel Hub
+        description: Beszel Hub on HUS
     - HUS Portainer:
         icon: sh-portainer
         href: http://10.0.40.21:19000/
@@ -61,9 +61,6 @@ homepage_services_yaml:
         icon: sh-paperless-ngx
         href: http://10.0.40.21:8000/
         description: Paperless NGX on HUS
-- Docker Home Media Server:
-  - HMS Download Tools:
-
 
 homepage_widgets_yaml:
 - search:
