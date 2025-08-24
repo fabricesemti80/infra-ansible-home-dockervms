@@ -13,7 +13,7 @@ paperless_ngx_media_directory: "{{ paperless_ngx_files_directory }}/media"
 paperless_ngx_consume_directory: "{{ paperless_ngx_files_directory }}/consume"
 
 # network
-paperless_ngx_port: "16923"
+paperless_ngx_port: "8000"
 paperless_ngx_hostname: "paperless_ngx"
 paperless_ngx_network_name: "paperless_ngx"
 

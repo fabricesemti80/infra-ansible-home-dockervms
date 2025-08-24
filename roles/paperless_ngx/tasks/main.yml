@@ -11,6 +11,7 @@
       path: "{{ item }}"
       state: directory
     with_items:
+    - "/opt/paperless_ngx/"
     - "{{ paperless_ngx_config_directory }}"
     - "{{ paperless_ngx_files_directory }}"
     - "{{ paperless_ngx_postgres_directory }}"
@@ -18,32 +19,34 @@
     - "{{ paperless_ngx_export_directory }}"
     - "{{ paperless_ngx_media_directory }}"
     - "{{ paperless_ngx_consume_directory }}"
-    - /opt/paperless_ngx/
-
-- name: Deploy Paperless_NGX Docker Compose file
-  ansible.builtin.template:
-    src: docker-compose.yml.j2
-    dest: /opt/paperless_ngx/docker-compose.yml
+  - name: Deploy Paperless_NGX Docker Compose file
+    ansible.builtin.template:
+      src: docker-compose.yml.j2
+      dest: /opt/paperless_ngx/docker-compose.yml
+    tags:
+    - paperless_ngx
+    - docker
+  - name: Start Paperless_NGX container
+    community.docker.docker_compose_v2:
+      project_src: /opt/paperless_ngx/
+      state: present
+  when: paperless_ngx_enabled
   tags:
   - paperless_ngx
   - docker
 
-- name: Start Paperless_NGX container
-  community.docker.docker_compose_v2:
-    project_src: /opt/paperless_ngx/
-    state: present
-  tags:
-  - bpaperless_ngx
-  - docker
-
-  when: paperless_ngx_enabled
-
 - name: Remove paperless_ngx
   block:
+  - name: Check if paperless_ngx project directory exists
+    ansible.builtin.stat:
+      path: /opt/paperless_ngx/docker-compose.yml
+    register: paperless_compose_file
   - name: Stop Paperless_NGX container
     community.docker.docker_compose_v2:
       project_src: /opt/paperless_ngx/
       state: absent
+      remove_volumes: true
+    when: paperless_compose_file.stat.exists
     tags:
     - paperless_ngx
     - docker
@@ -52,12 +55,13 @@
       path: "{{ item }}"
       state: absent
     with_items:
+    - "/opt/paperless_ngx/"
     - "{{ paperless_ngx_config_directory }}"
-    - "{{ paperless_ngx_files_directory }}"
+    # - "{{ paperless_ngx_files_directory }}"
     - "{{ paperless_ngx_postgres_directory }}"
     - "{{ paperless_ngx_data_directory }}"
     - "{{ paperless_ngx_export_directory }}"
-    - "{{ paperless_ngx_media_directory }}"
-    - "{{ paperless_ngx_consume_directory }}"
-    - /opt/paperless_ngx/
   when: not paperless_ngx_enabled
+  tags:
+  - paperless_ngx
+  - docker

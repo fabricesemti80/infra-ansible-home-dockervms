@@ -36,13 +36,19 @@ homepage_services_yaml:
       description: Unifi Router
 - System Tools:
   - Beszel:
-      icon: mdi-monitor-dashboard # https://gethomepage.dev/configs/services/#icons
+      icon: sh-beszel
+      # https://gethomepage.dev/configs/services/#icons
       href: http://10.0.40.21:8090/
       description: Beszel Hub
   - Portainer-HUS:
-      icon: mdi-docker
+      icon: sh-portainer
       href: http://10.0.40.21:19000/
       description: Portainer for HUS
+- Documents:
+  - Paperless-NGX:
+      icon: sh-paperless-ngx
+      href: http://10.0.40.21:8000/
+      description: Paperless NGX on HUS
 
 homepage_widgets_yaml:
 - search:
