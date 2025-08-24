@@ -1,5 +1,10 @@
 ---
-- name: Start paperless_ngx
+- name: Include variables
+  include_vars:
+    file: vars/main.yml
+    name: paperless_ngx_volumes
+
+- name: Deploy paperless-ngx with docker-compose
   block:
   - name: Create paperless_ngx directories
     ansible.builtin.file:
@@ -13,87 +18,46 @@
     - "{{ paperless_ngx_export_directory }}"
     - "{{ paperless_ngx_media_directory }}"
     - "{{ paperless_ngx_consume_directory }}"
+    - /opt/paperless_ngx/
 
-  - name: Create paperless_ngx network
-    community.docker.docker_network:
-      name: "{{ paperless_ngx_network_name }}"
+- name: Deploy Paperless_NGX Docker Compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /opt/paperless_ngx/docker-compose.yml
+  tags:
+  - paperless_ngx
+  - docker
 
-  - name: Create paperless_ngx redis broker
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_redis_container_name }}"
-      image: "{{ paperless_ngx_redis_image_name }}:{{ paperless_ngx_redis_image_version }}"
-      pull: true
-      restart_policy: unless-stopped
-      memory: "{{ paperless_ngx_redis_memory }}"
-      networks:
-      - name: "{{ paperless_ngx_network_name }}"
-      network_mode: "{{ paperless_ngx_network_name }}"
+- name: Start Paperless_NGX container
+  community.docker.docker_compose_v2:
+    project_src: /opt/paperless_ngx/
+    state: present
+  tags:
+  - bpaperless_ngx
+  - docker
 
-  - name: Create paperless_ngx postgres Docker Container
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_db_container_name }}"
-      image: "{{ paperless_ngx_db_image_name }}:{{ paperless_ngx_db_image_version }}"
-      pull: true
-      volumes:
-      - "{{ paperless_ngx_postgres_directory }}:/var/lib/postgresql/data"
-      env:
-        POSTGRES_DB: "{{ paperless_ngx_postgres_db }}"
-        POSTGRES_USER: "{{ paperless_ngx_postgres_user }}"
-        POSTGRES_PASSWORD: "{{ paperless_ngx_postgres_password }}"
-      restart_policy: unless-stopped
-      memory: "{{ paperless_ngx_postgres_memory }}"
-      networks:
-      - name: "{{ paperless_ngx_network_name }}"
-      network_mode: "{{ paperless_ngx_network_name }}"
+  when: paperless_ngx_enabled
 
-  - name: Create paperless_ngx UI Docker Container
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_uiserver_container_name }}"
-      image: "{{ paperless_ngx_uiserver_image_name }}:{{ paperless_ngx_uiserver_image_version }}"
-      pull: true
-      volumes:
-      - "{{ paperless_ngx_data_directory }}:/usr/src/paperless/data"
-      - "{{ paperless_ngx_media_directory }}:/usr/src/paperless/media"
-      - "{{ paperless_ngx_export_directory }}:/usr/src/paperless/export"
-      - "{{ paperless_ngx_consume_directory }}:/usr/src/paperless/consume"
-      ports:
-      - "{{ paperless_ngx_port }}:8000"
-      env:
-        PAPERLESS_REDIS: "redis://{{ paperless_ngx_redis_container_name | string }}:6379"
-        PAPERLESS_DBHOST: "{{ paperless_ngx_db_container_name | string }}"
-        USERMAP_UID: "{{ paperless_ngx_user_id }}"
-        USERMAP_GID: "{{ paperless_ngx_group_id }}"
-        PAPERLESS_OCR_LANGUAGES: "{{ paperless_ngx_languages }}"
-      restart_policy: unless-stopped
-      memory: "{{ paperless_ngx_ui_memory }}"
-      networks:
-      - name: "{{ paperless_ngx_network_name }}"
-      network_mode: "{{ paperless_ngx_network_name }}"
-      labels:
-        traefik.enable: "{{ paperless_ngx_available_externally | string }}"
-        traefik.http.routers.paperless_ngx.rule: "Host(`{{ paperless_ngx_hostname }}.{{ ansible_nas_domain }}`)"
-        traefik.http.routers.paperless_ngx.tls.certresolver: "letsencrypt"
-        traefik.http.routers.paperless_ngx.tls.domains[0].main: "{{ ansible_nas_domain }}"
-        traefik.http.routers.paperless_ngx.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
-        traefik.http.services.paperless_ngx.loadbalancer.server.port: "8080"
-        homepage.group: "Documents"
-        homepage.name: "Paperless-ngx"
-        homepage.icon: mdi-file-document-multiple
-        homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ paperless_ngx_port }}"
-  when: paperless_ngx_enabled is true
-
-- name: Stop paperless_ngx
+- name: Remove paperless_ngx
   block:
-  - name: Stop paperless_ngx
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_uiserver_container_name }}"
+  - name: Stop Paperless_NGX container
+    community.docker.docker_compose_v2:
+      project_src: /opt/paperless_ngx/
       state: absent
-  - name: Stop paperless_ngx redis
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_redis_container_name }}"
+    tags:
+    - paperless_ngx
+    - docker
+  - name: Remove paperless_ngx directories
+    ansible.builtin.file:
+      path: "{{ item }}"
       state: absent
-  - name: Stop paperless_ngx db
-    community.docker.docker_container:
-      name: "{{ paperless_ngx_db_container_name }}"
-      state: absent
-  when: paperless_ngx_enabled is false
+    with_items:
+    - "{{ paperless_ngx_config_directory }}"
+    - "{{ paperless_ngx_files_directory }}"
+    - "{{ paperless_ngx_postgres_directory }}"
+    - "{{ paperless_ngx_data_directory }}"
+    - "{{ paperless_ngx_export_directory }}"
+    - "{{ paperless_ngx_media_directory }}"
+    - "{{ paperless_ngx_consume_directory }}"
+    - /opt/paperless_ngx/
+  when: not paperless_ngx_enabled

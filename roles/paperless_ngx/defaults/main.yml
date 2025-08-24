@@ -25,12 +25,12 @@ paperless_ngx_postgres_password: "paperless"
 # container names
 
 paperless_ngx_redis_container_name: "paperless-ngx-redis"
-paperless_ngx_redis_image_name: "redis"
-paperless_ngx_redis_image_version: "6.0"
+paperless_ngx_redis_image_name: "docker.io/library/redis"
+paperless_ngx_redis_image_version: "8"
 
 paperless_ngx_db_container_name: "paperless-ngx-db"
-paperless_ngx_db_image_name: "postgres"
-paperless_ngx_db_image_version: "13"
+paperless_ngx_db_image_name: "docker.io/library/postgres"
+paperless_ngx_db_image_version: "17"
 
 paperless_ngx_uiserver_container_name: "paperless-ngx-uiserver"
 paperless_ngx_uiserver_image_name: "ghcr.io/paperless-ngx/paperless-ngx"

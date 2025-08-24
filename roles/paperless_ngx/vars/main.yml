@@ -1,0 +1,9 @@
+---
+redisdata:
+  driver: local
+pgdata:
+  driver: local
+data:
+  driver: local
+media:
+  driver: local
