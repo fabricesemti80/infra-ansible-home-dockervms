@@ -28,27 +28,42 @@ homepage_settings_yaml:
   language: "{{ homepage_locale }}"
   showStats: true
 
+#? Icos:
+#? - https://gethomepage.dev/configs/services/#icons
+#? - https://selfh.st/icons/
+
 homepage_services_yaml:
-- Networking:
-  - Router:
-      icon: mdi-router-network-wireless
-      href: http://192.168.1.1/
-      description: Unifi Router
-- System Tools:
-  - Beszel:
-      icon: sh-beszel
-      # https://gethomepage.dev/configs/services/#icons
-      href: http://10.0.40.21:8090/
-      description: Beszel Hub
-  - Portainer-HUS:
-      icon: sh-portainer
-      href: http://10.0.40.21:19000/
-      description: Portainer for HUS
-- Documents:
-  - Paperless-NGX:
-      icon: sh-paperless-ngx
-      href: http://10.0.40.21:8000/
-      description: Paperless NGX on HUS
+
+- LAN:
+  - Networking:
+    - Router:
+        icon: sh-ubiquiti-unifi
+        href: http://192.168.1.1/
+        description: Unifi Router
+    - Storage:
+      - QNAP:
+          icon: sh-qnap
+          href: http://10.0.40.2:8080/cgi-bin/
+          description: QNAP NAS
+
+- Docker Home Utility Server:
+  - HUS System Tools:
+    - HUS Beszel:
+        icon: sh-beszel
+        href: http://10.0.40.21:8090/
+        description: Beszel Hub
+    - HUS Portainer:
+        icon: sh-portainer
+        href: http://10.0.40.21:19000/
+        description: Portainer for HUS
+  - HUS Documents:
+    - Paperless-NGX:
+        icon: sh-paperless-ngx
+        href: http://10.0.40.21:8000/
+        description: Paperless NGX on HUS
+- Docker Home Media Server:
+  - HMS Download Tools:
+
 
 homepage_widgets_yaml:
 - search:

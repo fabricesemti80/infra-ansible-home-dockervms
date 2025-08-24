@@ -25,9 +25,9 @@
         traefik.http.routers.code_server.tls.domains[0].main: "{{ ansible_nas_domain }}"
         traefik.http.routers.code_server.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
         traefik.http.services.code_server.loadbalancer.server.port: "8443"
-        homepage.group: System Tools
+        homepage.group: "{{ prefix}} System Tools"
         homepage.name: Code Server
-        homepage.icon: mdi-microsoft-visual-studio-code
+        homepage.icon: sh-visual-studio-code-dark
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ code_server_port }}"
         homepage.description: Development
   when: code_server_enabled is true
