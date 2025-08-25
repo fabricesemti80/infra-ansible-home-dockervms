@@ -64,6 +64,7 @@
     - "{{ kestra_data_directory }}"
     - "{{ kestra_postgres_directory }}"
     - "{{ kestra_temp_directory }}"
+    - "{{ docker_home }}/kestra"
   when: not kestra_enabled
   tags:
   - kestra
