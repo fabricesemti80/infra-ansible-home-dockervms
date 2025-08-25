@@ -220,6 +220,10 @@
     tags:
     - joomla
 
+  - role: kestra
+    tags:
+    - kestra
+
   - role: komga
     tags:
     - komga

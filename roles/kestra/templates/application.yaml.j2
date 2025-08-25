@@ -1,0 +1,27 @@
+datasources:
+  postgres:
+    url: jdbc:postgresql://postgres:5432/{{ kestra_postgres_db }}
+    driverClassName: org.postgresql.Driver
+    username: {{ kestra_postgres_user }}
+    password: {{ kestra_postgres_password }}
+
+kestra:
+  server:
+    basic-auth:
+      enabled: false
+  repository:
+    type: postgres
+  queue:
+    type: postgres
+  storage:
+    type: local
+    local:
+      base-path: "/app/storage"
+
+micronaut:
+  application:
+    name: kestra
+  server:
+    port: 8080
+    netty:
+      max-header-size: 16KB

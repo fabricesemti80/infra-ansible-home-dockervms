@@ -1,0 +1,70 @@
+---
+- name: Include variables
+  include_vars:
+    file: vars/main.yml
+    name: kestra_volumes
+
+- name: Deploy kestra with docker-compose
+  block:
+  - name: Create kestra directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "/opt/kestra/"
+    - "{{ kestra_config_directory }}"
+    - "{{ kestra_data_directory }}"
+    - "{{ kestra_postgres_directory }}"
+    - "{{ kestra_temp_directory }}"
+  - name: Create Kestra application.yaml config file
+    ansible.builtin.template:
+      src: application.yaml.j2
+      dest: "{{ kestra_config_directory }}/application.yaml"
+    tags:
+    - kestra
+    - docker
+  - name: Deploy Kestra Docker Compose file
+    ansible.builtin.template:
+      src: docker-compose.yml.j2
+      dest: /opt/kestra/docker-compose.yml
+    tags:
+    - kestra
+    - docker
+  - name: Start Kestra container
+    community.docker.docker_compose_v2:
+      project_src: /opt/kestra/
+      state: present
+  when: kestra_enabled
+  tags:
+  - kestra
+  - docker
+
+- name: Remove kestra
+  block:
+  - name: Check if kestra project directory exists
+    ansible.builtin.stat:
+      path: /opt/kestra/docker-compose.yml
+    register: kestra_compose_file
+  - name: Stop Kestra container
+    community.docker.docker_compose_v2:
+      project_src: /opt/kestra/
+      state: absent
+      remove_volumes: true
+    when: kestra_compose_file.stat.exists
+    tags:
+    - kestra
+    - docker
+  - name: Remove kestra directories
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "/opt/kestra/"
+    - "{{ kestra_config_directory }}"
+    - "{{ kestra_data_directory }}"
+    - "{{ kestra_postgres_directory }}"
+    - "{{ kestra_temp_directory }}"
+  when: not kestra_enabled
+  tags:
+  - kestra
+  - docker

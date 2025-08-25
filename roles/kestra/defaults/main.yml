@@ -1,0 +1,36 @@
+---
+kestra_enabled: false
+kestra_available_externally: false
+
+# directories
+kestra_config_directory: "{{ docker_home }}/kestra"
+kestra_data_directory: "{{ kestra_config_directory }}/data"
+kestra_postgres_directory: "{{ kestra_config_directory }}/postgres"
+kestra_temp_directory: "{{ kestra_config_directory }}/tmp"
+
+# network
+kestra_port: "8080"
+kestra_internal_port: "8081"
+kestra_hostname: "kestra"
+kestra_network_name: "kestra"
+
+# postgres
+kestra_postgres_db: "kestra"
+kestra_postgres_user: "kestra"
+kestra_postgres_password: "kestra"
+
+# container names
+kestra_container_name: "kestra"
+kestra_image_name: "kestra/kestra"
+kestra_image_version: "latest"
+
+kestra_db_container_name: "kestra-db"
+kestra_db_image_name: "docker.io/library/postgres"
+kestra_db_image_version: "17"
+
+# kestra settings
+kestra_worker_threads: "128"
+
+# specs
+kestra_memory: 2g
+kestra_postgres_memory: 1g

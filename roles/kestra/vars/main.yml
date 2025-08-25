@@ -1,0 +1,5 @@
+---
+kestra_data:
+  driver: local
+pgdata:
+  driver: local
