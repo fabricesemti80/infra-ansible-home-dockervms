@@ -18,6 +18,8 @@ services:
     image: "{{ kestra_image_name }}:{{ kestra_image_version }}"
     container_name: "{{ kestra_container_name }}"
     restart: unless-stopped
+    environment:
+      SECRET_GITHUB_ACCESS_TOKEN: "{{ kestra_github_access_token  }}"
     pull_policy: always
     # Note that this is meant for development only. Refer to the documentation for production deployments of Kestra which runs without a root user.
     user: "root"
@@ -40,7 +42,7 @@ services:
       traefik.http.routers.kestra.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.kestra.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.kestra.loadbalancer.server.port: "8080"
-      homepage.group: "{{ prefix }} Automation"
+      homepage.group: "Automation"
       homepage.name: "Kestra"
       homepage.icon: si-kestra
       homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ kestra_port }}"

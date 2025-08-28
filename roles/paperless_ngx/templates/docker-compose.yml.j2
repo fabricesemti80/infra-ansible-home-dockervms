@@ -63,7 +63,7 @@ services:
       traefik.http.routers.paperless_ngx.tls.domains[0].main: "{{ ansible_nas_domain }}"
       traefik.http.routers.paperless_ngx.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
       traefik.http.services.paperless_ngx.loadbalancer.server.port: "8000"
-      homepage.group: "{{ prefix }} Documents"
+      homepage.group: "Documents"
       homepage.name: "Paperless-ngx"
       homepage.icon: sh-paperless-ng
       homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ paperless_ngx_port }}"

@@ -36,7 +36,7 @@
         traefik.http.routers.n8n.tls.domains[0].main: "{{ ansible_nas_domain }}"
         traefik.http.routers.n8n.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
         traefik.http.services.n8n.loadbalancer.server.port: "5678"
-        homepage.group: System Tools
+        homepage.group: Automation
         homepage.name: n8n
         homepage.icon: n8n.png
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ n8n_port }}"
