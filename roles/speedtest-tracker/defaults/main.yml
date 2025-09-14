@@ -1,4 +1,5 @@
 ---
+speedtest_enabled: false
 speedtest_tracker_enabled: false
 speedtest_tracker_available_externally: false
 
