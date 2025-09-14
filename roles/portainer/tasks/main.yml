@@ -35,7 +35,7 @@
         traefik.http.services.portainer.loadbalancer.server.port: "9443"
         traefik.http.routers.portainer.middlewares: "portainer-ipallowlist@docker"
         traefik.http.middlewares.portainer-ipallowlist.ipallowlist.sourcerange: "{{ portainer_ip_allowlist }}"
-        homepage.group: "System Tools"
+        homepage.group: "Monitoring"
         homepage.name: Portainer
         homepage.icon: sh-portainer
         homepage.href: "https://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ portainer_port }}"
