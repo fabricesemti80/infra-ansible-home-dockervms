@@ -34,31 +34,31 @@ homepage_settings_yaml:
 
 homepage_services_yaml:
 
-- Automation:
-  - N8N:
-      icon: sh-n8n
-      href: "https://{{ n8n_hostname }}.{{ ansible_nas_domain }}/"
-      description: n8n on HUS
-  - Kestra:
-      icon: sh-kestra
-      href: "https://{{ kestra_hostname }}.{{ ansible_nas_domain }}/"
-      description: Kestra on HUS
+# - Automation:
+#   - N8N:
+#       icon: sh-n8n
+#       href: "https://{{ n8n_hostname }}.{{ ansible_nas_domain }}/"
+#       description: n8n on HUS
+#   - Kestra:
+#       icon: sh-kestra
+#       href: "https://{{ kestra_hostname }}.{{ ansible_nas_domain }}/"
+#       description: Kestra on HUS
 
-- Monitoring:
-  - Beszel:
-      icon: sh-beszel
-      href: http://10.0.40.21:8090/
-      description: Beszel Hub on HUS
-  - (Utilty Server) Portainer:
-      icon: sh-portainer
-      href: http://10.0.40.21:19000/
-      description: Portainer for HUS
+# - Monitoring:
+#   - Beszel:
+#       icon: sh-beszel
+#       href: http://10.0.40.21:8090/
+#       description: Beszel Hub on HUS
+#   - (Utilty Server) Portainer:
+#       icon: sh-portainer
+#       href: http://10.0.40.21:19000/
+#       description: Portainer for HUS
 
-- Productivity:
-  - Paperless-NGX:
-      icon: sh-paperless-ngx
-      href: http://10.0.40.21:8000/
-      description: Paperless NGX on HUS
+# - Productivity:
+#   - Paperless-NGX:
+#       icon: sh-paperless-ngx
+#       href: http://10.0.40.21:8000/
+#       description: Paperless NGX on HUS
 
 - LAN:
   - UNIFI Router:
