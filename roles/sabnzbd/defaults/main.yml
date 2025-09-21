@@ -5,7 +5,7 @@ sabnzbd_available_externally: false
 # directories
 sabnzbd_data_directory: "{{ docker_home }}/sabnzbd"
 sabnzbd_downloads_directory: "{{ downloads_root }}"
-sabnzbd_incomplete_directory: "{{ downloads_root }}/sabnzbd-incomplete"
+sabnzbd_incomplete_directory: "{{ downloads_root }}/incomplete"
 
 # network
 sabnzbd_port: "18080"

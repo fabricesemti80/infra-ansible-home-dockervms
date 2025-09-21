@@ -21,7 +21,7 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: local_ranges
-      value: "127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12"
+      value: "127.0.0.1, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12, 172.0.0.0/8"
       create: true
     register: sabnzbd_config_ranges
 
@@ -48,7 +48,7 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: incomplete_dir
-      value: "/incomplete-downloads"
+      value: "/downloads/incomplete"
       create: true
     register: sabnzbd_config_incomplete_dir
 
@@ -87,7 +87,7 @@
       name: "{{ sabnzbd_container_name }}"
       state: started
       restart: true
-    when: sabnzbd_config_whitelist.changed or sabnzbd_config_ranges.changed
+    when: sabnzbd_config_whitelist.changed or sabnzbd_config_ranges.changed or sabnzbd_config_download_dir.changed or sabnzbd_config_complete_dir.changed or sabnzbd_config_incomplete_dir.changed
 
   - name: Get SABnzbd API key
     ansible.builtin.command: grep '^api_key' "{{ sabnzbd_data_directory }}/sabnzbd.ini"

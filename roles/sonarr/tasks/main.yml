@@ -1,11 +1,12 @@
-- name: Start Sonarr
+- name: DEPLOY Sonarr
   block:
-  - name: Create Sonarr Directories
+  - name: Create Sonarr Data Directory
     ansible.builtin.file:
       path: "{{ item }}"
       state: directory
     with_items:
     - "{{ sonarr_data_directory }}"
+
   - name: Sonarr
     community.docker.docker_container:
       name: "{{ sonarr_container_name }}"
@@ -37,10 +38,17 @@
         homepage.icon: sh-sonarr
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ sonarr_port }}"
   when: sonarr_enabled is true
-- name: Stop Sonarr
+
+
+- name: REMOVE Sonarr
   block:
   - name: Stop Sonarr
     community.docker.docker_container:
       name: "{{ sonarr_container_name }}"
+      state: absent
+
+  - name: Remove Sonarr Data Directory
+    ansible.builtin.file:
+      path: "{{ sonarr_data_directory }}"
       state: absent
   when: sonarr_enabled is false
