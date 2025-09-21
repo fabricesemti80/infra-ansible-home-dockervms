@@ -28,6 +28,8 @@
         PUID: "{{ jellyfin_user_id }}"
         PGID: "{{ jellyfin_group_id }}"
       restart_policy: unless-stopped
+      networks:
+        - name: "{{ docker_network }}"
       memory: "{{ jellyfin_memory }}"
       labels:
         traefik.enable: "{{ jellyfin_available_externally | string }}"

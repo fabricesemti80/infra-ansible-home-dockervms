@@ -42,3 +42,13 @@ I use indexers:
 ![alt text](image-4.png)
 
 > set language!
+
+## Jellyseer
+
+- Add `Jellyfin`, `Radarr` and `Sonarr`. Use the Docker container's name
+
+![alt text](image-7.png)
+
+- Dont forget to add notification
+
+![alt text](image-8.png)

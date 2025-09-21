@@ -1,0 +1,20 @@
+---
+jellyseerr_enabled: false
+jellyseerr_available_externally: false
+
+# directories
+jellyseerr_data_directory: "{{ docker_home }}/jellyseerr"
+
+# docker
+jellyseerr_container_name: "jellyseerr"
+jellyseerr_image_name: "fallenbagel/jellyseerr"
+jellyseerr_image_version: "latest"
+jellyseerr_user_id: "1000"
+jellyseerr_group_id: "1000"
+
+# network config
+jellyseerr_webui_port: "5056"
+jellyseerr_hostname: "jellyseerr"
+
+# specs
+jellyseerr_memory: 1g
