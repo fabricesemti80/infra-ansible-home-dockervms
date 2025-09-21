@@ -22,6 +22,8 @@
         PUID: "{{ sonarr_user_id }}"
         PGID: "{{ sonarr_group_id }}"
       restart_policy: unless-stopped
+      networks:
+        - name: "{{ docker_network }}"
       memory: "{{ sonarr_memory }}"
       labels:
         traefik.enable: "{{ sonarr_available_externally | string }}"

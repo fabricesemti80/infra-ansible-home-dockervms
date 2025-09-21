@@ -55,5 +55,5 @@
 
 - name: Create ansible-docker network
   community.docker.docker_network:
-    name: ansible-docker
+    name: "{{ docker_network }}"
     state: present

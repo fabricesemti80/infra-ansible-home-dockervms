@@ -21,9 +21,36 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: local_ranges
-      value: "127.0.0.1, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12, 172.0.0.0/8"
+      value: "127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12"
       create: true
     register: sabnzbd_config_ranges
+
+  - name: Configure SABnzbd download directory
+    ansible.builtin.ini_file:
+      path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
+      section: misc
+      option: download_dir
+      value: "/downloads"
+      create: true
+    register: sabnzbd_config_download_dir
+
+  - name: Configure SABnzbd complete directory
+    ansible.builtin.ini_file:
+      path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
+      section: misc
+      option: complete_dir
+      value: "/downloads/complete"
+      create: true
+    register: sabnzbd_config_complete_dir
+
+  - name: Configure SABnzbd incomplete directory
+    ansible.builtin.ini_file:
+      path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
+      section: misc
+      option: incomplete_dir
+      value: "/incomplete-downloads"
+      create: true
+    register: sabnzbd_config_incomplete_dir
 
   - name: Sabnzbd
     community.docker.docker_container:
@@ -42,7 +69,7 @@
         PGID: "{{ sabnzbd_group_id }}"
       restart_policy: unless-stopped
       networks:
-        - name: ansible-docker
+        - name: "{{ docker_network }}"
       labels:
         traefik.enable: "{{ sabnzbd_available_externally | string }}"
         traefik.http.routers.sabnzbd.rule: "Host(`{{ sabnzbd_hostname }}.{{ ansible_nas_domain }}`)"
