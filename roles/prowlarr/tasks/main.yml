@@ -1,14 +1,13 @@
----
-- name: Start Prowlarr
+- name: DEPLOY Prowlarr
   block:
-  - name: Create Prowlarr Directories
+  - name: Create Prowlarr Data Directory
     ansible.builtin.file:
       path: "{{ item }}"
       state: directory
     with_items:
     - "{{ prowlarr_data_directory }}"
 
-  - name: Create Prowlarr Docker Container
+  - name: Prowlarr
     community.docker.docker_container:
       name: "{{ prowlarr_container_name }}"
       image: "{{ prowlarr_image_name }}:{{ prowlarr_image_version }}"
@@ -38,12 +37,30 @@
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ prowlarr_port }}"
         homepage.description: Indexer Proxy
 
+  - name: Get Prowlarr API key
+    ansible.builtin.command: grep '<ApiKey>' "{{ prowlarr_data_directory }}/config.xml"
+    register: prowlarr_api_key_raw
+    changed_when: false
+
+  - name: Set Prowlarr API key variable
+    ansible.builtin.set_fact:
+      prowlarr_api_key: "{{ prowlarr_api_key_raw.stdout | regex_replace('<ApiKey>(.*)</ApiKey>', '\\1') }}"
+
+  - name: Display Prowlarr API key
+    ansible.builtin.debug:
+      msg: "Prowlarr API Key: {{ prowlarr_api_key }}"
   when: prowlarr_enabled is true
 
-- name: Stop Prowlarr
+
+- name: REMOVE Prowlarr
   block:
   - name: Stop Prowlarr
     community.docker.docker_container:
       name: "{{ prowlarr_container_name }}"
+      state: absent
+
+  - name: Remove Prowlarr Data Directory
+    ansible.builtin.file:
+      path: "{{ prowlarr_data_directory }}"
       state: absent
   when: prowlarr_enabled is false

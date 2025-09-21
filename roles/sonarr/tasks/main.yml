@@ -37,6 +37,19 @@
         homepage.name: "Sonarr"
         homepage.icon: sh-sonarr
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ sonarr_port }}"
+
+  - name: Get Sonarr API key
+    ansible.builtin.command: grep '<ApiKey>' "{{ sonarr_data_directory }}/config.xml"
+    register: sonarr_api_key_raw
+    changed_when: false
+
+  - name: Set Sonarr API key variable
+    ansible.builtin.set_fact:
+      sonarr_api_key: "{{ sonarr_api_key_raw.stdout | regex_replace('<ApiKey>(.*)</ApiKey>', '\\1') }}"
+
+  - name: Display Sonarr API key
+    ansible.builtin.debug:
+      msg: "Sonarr API Key: {{ sonarr_api_key }}"
   when: sonarr_enabled is true
 
 
