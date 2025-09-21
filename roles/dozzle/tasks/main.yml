@@ -1,0 +1,57 @@
+- name: DEPLOY Dozzle
+  block:
+  - name: Create Dozzle Data Directory
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ dozzle_data_directory }}"
+
+  - name: Dozzle
+    community.docker.docker_container:
+      name: "{{ dozzle_container_name }}"
+      image: "{{ dozzle_image_name }}:{{ dozzle_image_version }}"
+      pull: true
+      security_opts:
+        - no-new-privileges:true
+      ports:
+      - "{{ dozzle_port }}:8080"
+      env:
+        TZ: "{{ ansible_nas_timezone }}"
+        DOZZLE_LEVEL: "{{ dozzle_level }}"
+        DOZZLE_TAILSIZE: "{{ dozzle_tailsize }}"
+        DOZZLE_FILTER: "{{ dozzle_filter }}"
+        DOCKER_HOST: "tcp://socket-proxy:2375"
+      restart_policy: unless-stopped
+      networks:
+        - name: socket_proxy
+        - name: "{{ docker_network }}"
+      labels:
+        traefik.enable: "{{ dozzle_available_externally | string }}"
+        traefik.http.routers.dozzle.rule: "Host(`{{ dozzle_hostname }}.{{ ansible_nas_domain }}`)"
+        traefik.http.routers.dozzle.tls.certresolver: "letsencrypt"
+        traefik.http.routers.dozzle.tls.domains[0].main: "{{ ansible_nas_domain }}"
+        traefik.http.routers.dozzle.tls.domains[0].sans: "*.{{ ansible_nas_domain }}"
+        traefik.http.services.dozzle.loadbalancer.server.port: "8080"
+        tsdproxy.enable: "true"
+        tsdproxy.name: "dozzle"
+        homepage.group: "System Tools"
+        homepage.name: "Dozzle"
+        homepage.icon: "docker"
+        homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ dozzle_port }}"
+
+  when: dozzle_enabled is true
+
+
+- name: REMOVE Dozzle
+  block:
+  - name: Stop Dozzle
+    community.docker.docker_container:
+      name: "{{ dozzle_container_name }}"
+      state: absent
+
+  - name: Remove Dozzle Data Directory
+    ansible.builtin.file:
+      path: "{{ dozzle_data_directory }}"
+      state: absent
+  when: dozzle_enabled is false

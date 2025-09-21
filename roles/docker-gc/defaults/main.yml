@@ -1,0 +1,25 @@
+---
+docker_gc_enabled: false
+
+# directories
+docker_gc_data_directory: "{{ docker_home }}/docker-gc"
+
+# specs
+docker_gc_memory: 1g
+
+# uid / gid
+docker_gc_user_id: "0"
+docker_gc_group_id: "0"
+
+# docker
+docker_gc_container_name: "docker-gc"
+docker_gc_image_name: "clockworksoul/docker-gc-cron"
+docker_gc_image_version: "latest"
+
+# docker-gc specific
+docker_gc_cron: "0 1 * * *"
+docker_gc_force_image_removal: "1"
+docker_gc_force_container_removal: "0"
+docker_gc_grace_period_seconds: "604800"
+docker_gc_dry_run: "0"
+docker_gc_clean_up_volumes: "1"

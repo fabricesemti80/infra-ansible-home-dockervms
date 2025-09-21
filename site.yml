@@ -112,9 +112,21 @@
     tags:
     - dashy
 
+  - role: socket-proxy
+    tags:
+    - socket-proxy
+
+  - role: dozzle
+    tags:
+    - dozzle
+
   - role: ddns_updater
     tags:
     - ddns_updater
+
+  - role: docker-gc
+    tags:
+    - docker-gc
 
   - role: deluge
     tags:

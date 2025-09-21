@@ -1,0 +1,27 @@
+---
+dozzle_enabled: false
+dozzle_available_externally: false
+
+# directories
+dozzle_data_directory: "{{ docker_home }}/dozzle"
+
+# network
+dozzle_port: "8082"
+dozzle_hostname: "dozzle"
+
+# specs
+dozzle_memory: 1g
+
+# uid / gid
+dozzle_user_id: "0"
+dozzle_group_id: "0"
+
+# docker
+dozzle_container_name: "dozzle"
+dozzle_image_name: "amir20/dozzle"
+dozzle_image_version: "latest"
+
+# dozzle specific
+dozzle_level: "info"
+dozzle_tailsize: "300"
+dozzle_filter: "status=running"

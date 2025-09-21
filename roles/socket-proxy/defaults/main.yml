@@ -1,0 +1,44 @@
+---
+socket_proxy_enabled: false
+
+# directories
+socket_proxy_data_directory: "{{ docker_home }}/socket-proxy"
+
+# specs
+socket_proxy_memory: 1g
+
+# uid / gid
+socket_proxy_user_id: "0"
+socket_proxy_group_id: "0"
+
+# docker
+socket_proxy_container_name: "socket-proxy"
+socket_proxy_image_name: "tecnativa/docker-socket-proxy"
+socket_proxy_image_version: "latest"
+
+# socket-proxy specific
+socket_proxy_log_level: "info"
+socket_proxy_events: "1"
+socket_proxy_ping: "1"
+socket_proxy_version: "1"
+socket_proxy_auth: "0"
+socket_proxy_secrets: "0"
+socket_proxy_post: "1"
+socket_proxy_build: "0"
+socket_proxy_commit: "0"
+socket_proxy_configs: "0"
+socket_proxy_containers: "1"
+socket_proxy_distribution: "0"
+socket_proxy_exec: "0"
+socket_proxy_images: "1"
+socket_proxy_info: "1"
+socket_proxy_logs: "1"
+socket_proxy_networks: "1"
+socket_proxy_nodes: "0"
+socket_proxy_plugins: "0"
+socket_proxy_services: "1"
+socket_proxy_session: "0"
+socket_proxy_swarm: "0"
+socket_proxy_system: "0"
+socket_proxy_tasks: "1"
+socket_proxy_volumes: "1"

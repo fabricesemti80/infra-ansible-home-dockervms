@@ -1,0 +1,44 @@
+- name: DEPLOY Docker-GC
+  block:
+  - name: Create Docker-GC Data Directory
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ docker_gc_data_directory }}"
+
+  - name: Docker-GC
+    community.docker.docker_container:
+      name: "{{ docker_gc_container_name }}"
+      image: "{{ docker_gc_image_name }}:{{ docker_gc_image_version }}"
+      pull: true
+      security_opts:
+        - no-new-privileges:true
+      env:
+        TZ: "{{ ansible_nas_timezone }}"
+        CRON: "{{ docker_gc_cron }}"
+        FORCE_IMAGE_REMOVAL: "{{ docker_gc_force_image_removal }}"
+        FORCE_CONTAINER_REMOVAL: "{{ docker_gc_force_container_removal }}"
+        GRACE_PERIOD_SECONDS: "{{ docker_gc_grace_period_seconds }}"
+        DRY_RUN: "{{ docker_gc_dry_run }}"
+        CLEAN_UP_VOLUMES: "{{ docker_gc_clean_up_volumes }}"
+        DOCKER_HOST: "tcp://socket-proxy:2375"
+      restart_policy: unless-stopped
+      networks:
+        - name: socket_proxy
+
+  when: docker_gc_enabled is true
+
+
+- name: REMOVE Docker-GC
+  block:
+  - name: Stop Docker-GC
+    community.docker.docker_container:
+      name: "{{ docker_gc_container_name }}"
+      state: absent
+
+  - name: Remove Docker-GC Data Directory
+    ansible.builtin.file:
+      path: "{{ docker_gc_data_directory }}"
+      state: absent
+  when: docker_gc_enabled is false

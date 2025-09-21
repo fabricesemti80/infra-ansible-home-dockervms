@@ -1,0 +1,76 @@
+- name: DEPLOY Socket-Proxy
+  block:
+  - name: Create Socket-Proxy Data Directory
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+    - "{{ socket_proxy_data_directory }}"
+
+  - name: Create socket_proxy network
+    community.docker.docker_network:
+      name: socket_proxy
+      state: present
+
+  - name: Socket-Proxy
+    community.docker.docker_container:
+      name: "{{ socket_proxy_container_name }}"
+      image: "{{ socket_proxy_image_name }}:{{ socket_proxy_image_version }}"
+      pull: true
+      security_opts:
+        - no-new-privileges:true
+      privileged: true
+      volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      ports:
+      - "127.0.0.1:2375:2375"
+      env:
+        LOG_LEVEL: "{{ socket_proxy_log_level }}"
+        EVENTS: "{{ socket_proxy_events }}"
+        PING: "{{ socket_proxy_ping }}"
+        VERSION: "{{ socket_proxy_version }}"
+        AUTH: "{{ socket_proxy_auth }}"
+        SECRETS: "{{ socket_proxy_secrets }}"
+        POST: "{{ socket_proxy_post }}"
+        BUILD: "{{ socket_proxy_build }}"
+        COMMIT: "{{ socket_proxy_commit }}"
+        CONFIGS: "{{ socket_proxy_configs }}"
+        CONTAINERS: "{{ socket_proxy_containers }}"
+        DISTRIBUTION: "{{ socket_proxy_distribution }}"
+        EXEC: "{{ socket_proxy_exec }}"
+        IMAGES: "{{ socket_proxy_images }}"
+        INFO: "{{ socket_proxy_info }}"
+        LOGS: "{{ socket_proxy_logs }}"
+        NETWORKS: "{{ socket_proxy_networks }}"
+        NODES: "{{ socket_proxy_nodes }}"
+        PLUGINS: "{{ socket_proxy_plugins }}"
+        SERVICES: "{{ socket_proxy_services }}"
+        SESSION: "{{ socket_proxy_session }}"
+        SWARM: "{{ socket_proxy_swarm }}"
+        SYSTEM: "{{ socket_proxy_system }}"
+        TASKS: "{{ socket_proxy_tasks }}"
+        VOLUMES: "{{ socket_proxy_volumes }}"
+      restart_policy: unless-stopped
+      networks:
+        - name: socket_proxy
+
+  when: socket_proxy_enabled is true
+
+
+- name: REMOVE Socket-Proxy
+  block:
+  - name: Stop Socket-Proxy
+    community.docker.docker_container:
+      name: "{{ socket_proxy_container_name }}"
+      state: absent
+
+  - name: Remove Socket-Proxy Data Directory
+    ansible.builtin.file:
+      path: "{{ socket_proxy_data_directory }}"
+      state: absent
+
+  - name: Remove socket_proxy network
+    community.docker.docker_network:
+      name: socket_proxy
+      state: absent
+  when: socket_proxy_enabled is false
