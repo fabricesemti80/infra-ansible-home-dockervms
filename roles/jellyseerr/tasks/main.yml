@@ -36,7 +36,8 @@
         homepage.group: "Media"
         homepage.name: "Jellyseerr"
         homepage.icon: "jellyseerr"
-        homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyseerr_webui_port }}"
+        homepage.href: "{% if jellyseerr_available_externally %}https://{{ jellyseerr_hostname }}.{{ ansible_nas_domain }}{% else %}http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyseerr_webui_port }}{% endif %}"
+        # homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyseerr_webui_port }}"
         homepage.description: "Media requests"
   when: jellyseerr_enabled is true
 

@@ -41,10 +41,11 @@
         homepage.group: "Media"
         homepage.name: Jellyfin
         homepage.icon: sh-jellyfin
-        homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}"
+        homepage.href: "{% if jellyfin_available_externally %}https://{{ jellyfin_hostname }}.{{ ansible_nas_domain }}{% else %}http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}{% endif %}"
+        # homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}"
         homepage.description: Media server
         homepage.widget.type: jellyfin
-        homepage.widget.url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}"
+        homepage.widget.url: "{% if jellyfin_available_externally %}https://{{ jellyfin_hostname }}.{{ ansible_nas_domain }}{% else %}http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ jellyfin_port_http }}{% endif %}"
         homepage.widget.key: "{{ jellyfin_api_key }}"
         homepage.widget.enableBlocks: "true"
         homepage.widget.enableNowPlaying: "true"
