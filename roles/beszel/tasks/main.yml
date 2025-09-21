@@ -26,7 +26,7 @@
     labels:
       homepage.group: System Tools
       homepage.name: Beszel
-      homepage.icon: monitor.png
+      homepage.icon: sh-beszel-light
       homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8090"
       homepage.description: Beszel Server
   when: beszel_deploy_server
