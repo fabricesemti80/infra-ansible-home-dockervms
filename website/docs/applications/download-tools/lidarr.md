@@ -8,4 +8,4 @@ Lidarr is a music collection manager for Usenet and BitTorrent users. It can mon
 
 ## Usage
 
-Set `lidarr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `lidarr_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.

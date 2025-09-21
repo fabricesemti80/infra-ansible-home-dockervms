@@ -14,7 +14,7 @@ bitwarden_admin_token: qwertyuiop1234567890poiuytrewq0987654321
 
 # To create a user set this to "true", and reprovision the container by re-running the ansible-nas playbook.
 # Once you have created your user, set to "false" and run one more time.
-# Target just Bitwarden by running: ansible-playbook -i inventory nas.yml -b -K -t bitwarden
+# Target just Bitwarden by running: ansible-playbook -i inventory site.yml -b -K -t bitwarden
 bitwarden_allow_signups: false
 
 # specs

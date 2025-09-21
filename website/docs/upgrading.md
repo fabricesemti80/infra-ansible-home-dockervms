@@ -13,7 +13,7 @@ git pull origin main
 To see the effect of running the latest version of Ansible-NAS against your Ubuntu server, you can run Ansible in check mode first:
 
 ```bash
-ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K -C
+ansible-playbook -i inventories/my-ansible-nas/inventory site.yml -b -K -C
 ```
 
 Once you're happy, run as normal.

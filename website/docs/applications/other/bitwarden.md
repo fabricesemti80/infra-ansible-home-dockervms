@@ -1,6 +1,6 @@
 ---
 title: "Bitwarden(_rs)"
---- 
+---
 
 Homepage: [https://github.com/dani-garcia/bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs)
 
@@ -10,7 +10,7 @@ This is a Bitwarden server API implementation written in Rust compatible with up
 
 ## Usage
 
-Set `bitwarden_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `bitwarden_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 ## Specific Configuration
 

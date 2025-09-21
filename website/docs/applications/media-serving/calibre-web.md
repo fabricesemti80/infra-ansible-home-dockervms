@@ -8,7 +8,7 @@ Calibre-Web is a web app providing a clean interface for browsing, reading and d
 
 ## Usage
 
-Set `calibreweb_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `calibreweb_enabled: true` in your `inventories/<your_inventory>/site.yml` file.
 
 ## Specific Configuration
 

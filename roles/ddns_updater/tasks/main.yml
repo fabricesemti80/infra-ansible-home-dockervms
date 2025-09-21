@@ -8,7 +8,7 @@
 
     - name: Check config is defined
       ansible.builtin.fail:
-        msg: "Please configure DDNS Updater by setting ddns_updater_config in your inventory nas.yml."
+        msg: "Please configure DDNS Updater by setting ddns_updater_config in your inventory site.yml."
       when: ddns_updater_config is not defined
 
     - name: Generate config.json

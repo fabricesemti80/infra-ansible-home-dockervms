@@ -8,7 +8,7 @@ Extendable workflow automation tool that enables you to connect anything to ever
 
 ## Usage
 
-Set `n8n_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `n8n_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 n8n is secured by default, he user and password can be set with:
 

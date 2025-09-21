@@ -10,7 +10,7 @@ Easily configured via YAML files or through docker label discovery.
 
 ## Usage
 
-Set `homepage_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `homepage_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Homepage web interface can be found at [http://ansible_nas_host_or_ip:11111](http://ansible_nas_host_or_ip:10080).
 

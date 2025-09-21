@@ -10,6 +10,6 @@ title: "Overseerr"
 
 ## Usage
 
- Using overseerr: Set `overseerr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+ Using overseerr: Set `overseerr_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
  The overseerr web interface can be found at [http://ansible_nas_host_or_ip:5055](http://ansible_nas_host_or_ip:5055).

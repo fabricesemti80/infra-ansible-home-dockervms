@@ -14,6 +14,6 @@ Threadfin emulates a SiliconDust HDHomeRun OTA tuner, which allows it to expose 
 
 ## Usage
 
-Set `threadfin_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `threadfin_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Access the webui at [http://ansible_nas_host_or_ip:34400/web](http://ansible_nas_host_or_ip:34400/web) by default. See specific configuration section below for information on setting up external access.

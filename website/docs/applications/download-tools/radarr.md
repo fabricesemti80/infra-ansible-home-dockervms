@@ -8,7 +8,7 @@ Homepage: [radarr](https://radarr.video/)
 
 ## Usage
 
-Set `radarr_enabled: true` in your `/inventories/[my inventory]/group_vars/nas.yml` file.
+Set `radarr_enabled: true` in your `/inventories/[my inventory]/group_vars/site.yml` file.
 
 The Radarr web interface can be found at `http://ansible_nas_host_or_ip:7878` by default
 

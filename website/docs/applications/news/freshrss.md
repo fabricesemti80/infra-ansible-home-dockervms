@@ -18,6 +18,6 @@ Finally, it supports extensions for further tuning.
 
 ## Usage
 
-Set `freshrss_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `freshrss_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The FreshRSS web interface can be found at [http://ansible_nas_host_or_ip:8089](http://ansible_nas_host_or_ip:8089).

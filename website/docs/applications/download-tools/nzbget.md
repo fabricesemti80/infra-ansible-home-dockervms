@@ -8,6 +8,6 @@ The most efficient Usenet downloader. NZBGet is written in C++ and designed with
 
 ## Usage
 
-Set `nzbget_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `nzbget_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The NZBget web interface can be found at [http://ansible_nas_host_or_ip:6789](http://ansible_nas_host_or_ip:6789), the default username is `nzbget` and password `tegbzn6789`. Change this once you've logged in!

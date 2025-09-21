@@ -11,7 +11,7 @@ The server version of the game Minecraft (Bedrock edition), running in a contain
 
 ## Usage
 
-Set `minecraft_bedrock_server_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `minecraft_bedrock_server_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Ansible NAS host or ip address should then be usable as a server within the Minecraft multiplayer game menu.
 

@@ -8,10 +8,10 @@ A daemon that manages and monitors a Connected APC UPS Device, which has the abi
 
 ## Usage
 
-1. Set `apcupsd_enabled: true` in your `inventories/<your_inventory>/nas.yml` file
-2. Set `apcupsd_device` variable to connected UPS device path (e.g `apcupsd_device: "/dev/usb/hiddev0"`) in your `inventories/<your_inventory>/nas.yml` file.
+1. Set `apcupsd_enabled: true` in your `inventories/<your_inventory>/site.yml` file
+2. Set `apcupsd_device` variable to connected UPS device path (e.g `apcupsd_device: "/dev/usb/hiddev0"`) in your `inventories/<your_inventory>/site.yml` file.
 
-In addition, the following parameters can be overridden  in your `inventories/<your_inventory>/nas.yml` file:
+In addition, the following parameters can be overridden  in your `inventories/<your_inventory>/site.yml` file:
 
 * `apcupsd_onbatterydelay` - the time in seconds from when a power failure is detected until we react to it with an onbattery event
 * `apcupsd_batterylevel` - if during a power failure, the remaining battery percentage is below or equal to BATTERYLEVEL, apcupsd will initiate a system shutdown

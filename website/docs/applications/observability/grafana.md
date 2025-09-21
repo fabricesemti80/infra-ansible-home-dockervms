@@ -10,6 +10,6 @@ Query, visualize, alert on, and understand your data no matter where it’s stor
 
 ## Usage
 
-Set `stats_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `stats_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Grafana's web interface can be found at [http://ansible_nas_host_or_ip:3000](http://ansible_nas_host_or_ip:3000).

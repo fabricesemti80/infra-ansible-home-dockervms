@@ -6,7 +6,7 @@ steps:
   - name: check ansible syntax
     image: plugins/ansible:3
     settings:
-      playbook: nas.yml
+      playbook: site.yml
       galaxy: requirements.yml
       inventory: tests/inventories/integration_testing/inventory
       syntax_check: true
@@ -15,5 +15,5 @@ steps:
     image: python:3
     commands:
       - pip3 install ansible yamllint==1.27.1 ansible-lint==6.5
-      - ansible-lint nas.yml
+      - ansible-lint site.yml
       - yamllint .

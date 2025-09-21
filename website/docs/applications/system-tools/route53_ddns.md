@@ -10,13 +10,13 @@ If you want your Ansible-NAS accessible externally then you need a domain name. 
 
 ## Usage
 
-Set `route53_ddns_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `route53_ddns_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Set required AWS access credentials from the AWS Console. (See below.)
 
 ## Specific Configuration
 
-Make sure you set your domain (if different than the `ansible-nas` default) and access details within your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Make sure you set your domain (if different than the `ansible-nas` default) and access details within your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 To set up Route53 to work with the service, please review the [Prerequisites](https://crazymax.dev/ddns-route53/usage/prerequisites/) page. In short, you will need to set up a Route53 [Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html), an [IAM Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html), and an [IAM User](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with API credentials.
 

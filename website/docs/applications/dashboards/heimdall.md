@@ -8,7 +8,7 @@ Heimdall Application Dashboard is a dashboard for all your web applications. It 
 
 ## Usage
 
-Set `heimdall_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `heimdall_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Heimdall web interface can be found at [http://ansible_nas_host_or_ip:10080](http://ansible_nas_host_or_ip:10080).
 

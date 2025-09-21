@@ -4,7 +4,7 @@ title: "Logging"
 
 The logging stack sets up a fully functional application logging capture and search service based on [Loki](https://grafana.com/oss/loki/), viewable via Grafana.
 
-To enable it, add the following to your `inventories/<your_inventory>/group_vars/nas.yml`:
+To enable it, add the following to your `inventories/<your_inventory>/group_vars/site.yml`:
 
 ```yaml
 logging_stack_enabled: true

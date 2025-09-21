@@ -6,6 +6,6 @@ Homepage: [https://docs.portainer.io/start/install/server/docker](https://docs.p
 
 ## Usage
 
-Set `portainer_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `portainer_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Portainer web interface can be found at [http://ansible_nas_host_or_ip:9000](http://ansible_nas_host_or_ip:9000).

@@ -8,7 +8,7 @@ Calibre is a powerful and easy to use e-book manager.
 
 ## Usage
 
-Set `calibre_enabled: true` in your `inventories/<your_inventory>/nas.yml` file.
+Set `calibre_enabled: true` in your `inventories/<your_inventory>/site.yml` file.
 
 ## Specific Configuration
 

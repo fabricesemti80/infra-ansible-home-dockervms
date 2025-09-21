@@ -33,10 +33,10 @@ Before running anything, check out the playbook and understand what it does. ***
 
     `cp -rfp inventories/sample inventories/my-ansible-nas`
 
-3. Review `group_vars/all.yml`. Change settings by overriding them in `inventories/my-ansible-nas/group_vars/nas.yml`.
+3. Review `group_vars/all.yml`. Change settings by overriding them in `inventories/my-ansible-nas/group_vars/site.yml`.
 
 4. Update `inventories/my-ansible-nas/inventory`.
 
 5. Install the dependent roles: `ansible-galaxy install -r requirements.yml`.
 
-6. Run the playbook - `ansible-playbook -i inventories/my-ansible-nas/inventory nas.yml -b -K`
+6. Run the playbook - `ansible-playbook -i inventories/my-ansible-nas/inventory site.yml -b -K`

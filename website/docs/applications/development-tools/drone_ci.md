@@ -8,7 +8,7 @@ Check it out at [https://drone.io](https://drone.io).
 
 ## Usage
 
-Set `drone_ci_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `drone_ci_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Gitea (`gitea_enabled: true`) must be set up and running before attempting to set up Drone CI.
 

@@ -10,7 +10,7 @@ Light container updating DNS A and/or AAAA records periodically for multiple DNS
 
 ## Usage
 
-Set `ddns_updater_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `ddns_updater_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 ## Specific Configuration
 

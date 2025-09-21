@@ -29,7 +29,7 @@
 #         run: pip3 install ansible yamllint==1.30.0 ansible-lint==6.14.6
 
 #       - name: Ansible-lint
-#         run: ansible-lint nas.yml
+#         run: ansible-lint site.yml
 
 #       - name: Lint yaml files
 #         run: yamllint .

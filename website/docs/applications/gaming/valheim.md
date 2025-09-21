@@ -8,7 +8,7 @@ Valheim Docker powered by Odin. The Valheim dedicated gameserver manager which i
 
 ## Usage
 
-Set `valheim_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `valheim_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Set `valheim_optional_env` to a list of environment variables you need for the server. You can use many `valheim_*` variables alredy defined as defaults.
 

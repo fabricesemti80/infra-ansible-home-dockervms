@@ -8,9 +8,9 @@ Piwigo is open source photo gallery software for the web. Designed for organisat
 
 ## Usage
 
-Set `piwigo_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `piwigo_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
-If you want to access Piwigo externally, set `piwigo_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+If you want to access Piwigo externally, set `piwigo_available_externally: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Piwigo web interface can be found at [http://ansible_nas_host_or_ip:16923](http://ansible_nas_host_or_ip:16923).
 
@@ -18,9 +18,9 @@ The Piwigo web interface can be found at [http://ansible_nas_host_or_ip:16923](h
 
 Optional configurations:
 
-- Set `piwigo_mysql_user` in `inventories/<your_inventory>/group_vars/nas.yml` before installing Piwigo, this defaults to "piwigo".
-- Set `piwigo_mysql_password` in `inventories/<your_inventory>/group_vars/nas.yml` before installing Piwigo, this defaults to "piwigo".
-- Set `piwigo_mysql_root_password` in `inventories/<your_inventory>/group_vars/nas.yml` before installing Piwigo, this defaults to "piwigo".
+- Set `piwigo_mysql_user` in `inventories/<your_inventory>/group_vars/site.yml` before installing Piwigo, this defaults to "piwigo".
+- Set `piwigo_mysql_password` in `inventories/<your_inventory>/group_vars/site.yml` before installing Piwigo, this defaults to "piwigo".
+- Set `piwigo_mysql_root_password` in `inventories/<your_inventory>/group_vars/site.yml` before installing Piwigo, this defaults to "piwigo".
 
 - On first run you'll need to enter database details:
   - Host: `piwigo-db`

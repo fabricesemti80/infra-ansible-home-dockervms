@@ -11,37 +11,37 @@ tasks:
   list:
     desc: List all available ansible tasks
     cmds:
-    - ansible-playbook nas.yml --list-tasks
+    - ansible-playbook site.yml --list-tasks
 
   deploy:
     desc: Deploy full media server configuration
     cmds:
-    - ansible-playbook nas.yml -b -K
+    - ansible-playbook site.yml -b -K
 
   check:
     desc: Dry-run full deployment with diff
     cmds:
-    - ansible-playbook nas.yml -b -K --check --diff
+    - ansible-playbook site.yml -b -K --check --diff
 
   deploy:hus:
     desc: Deploy to hus host group
     cmds:
-    - ansible-playbook nas.yml -b -K -l hus
+    - ansible-playbook site.yml -b -K -l hus
 
   check:hus:
     desc: Dry-run hus deployment with diff
     cmds:
-    - ansible-playbook nas.yml -b -K -l hus --check --diff
+    - ansible-playbook site.yml -b -K -l hus --check --diff
 
   deploy:hms:
     desc: Deploy to hms host group
     cmds:
-    - ansible-playbook nas.yml -b -K -l hms
+    - ansible-playbook site.yml -b -K -l hms
 
   check:hms:
     desc: Dry-run hms deployment with diff
     cmds:
-    - ansible-playbook nas.yml -b -K -l hms --check --diff
+    - ansible-playbook site.yml -b -K -l hms --check --diff
 
   deploy:tags:
     desc: "Deploy with specific tags"
@@ -57,7 +57,7 @@ tasks:
         TAGS="{{.TAGS}}"
       fi
       echo "Deploying with tags: $TAGS"
-      ansible-playbook nas.yml -b -K --tags="$TAGS"
+      ansible-playbook site.yml -b -K --tags="$TAGS"
 
   check:tags:
     desc: "Check with specific tags"
@@ -73,7 +73,7 @@ tasks:
         TAGS="{{.TAGS}}"
       fi
       echo "Checking with tags: $TAGS"
-      ansible-playbook nas.yml -b -K --tags="$TAGS" --check --diff
+      ansible-playbook site.yml -b -K --tags="$TAGS" --check --diff
 
   default:
     cmds:

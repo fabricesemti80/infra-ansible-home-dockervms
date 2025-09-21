@@ -8,7 +8,7 @@ Check it out at [https://woodpecker-ci.org/](https://woodpecker-ci.org/).
 
 ## Usage
 
-Set `woodpecker_ci_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `woodpecker_ci_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Gitea (`gitea_enabled: true`) must be set up and running before attempting to set up Woodpecker CI.
 

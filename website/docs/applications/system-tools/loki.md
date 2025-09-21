@@ -10,7 +10,7 @@ Loki is a log aggregation system designed to store and query logs from all your 
 
 ## Usage
 
-Set `loki_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `loki_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Loki doesn't have a web interface. To see what it's doing look at the container logs from your Ansible-NAS shell:
 

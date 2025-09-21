@@ -9,9 +9,9 @@ TiddlyWiki is a unique non-linear notebook for capturing, organizing, and sharin
 
 ## Usage
 
-Set `tiddlywiki_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `tiddlywiki_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
-If you want to access TiddlyWiki externally, set `tiddlywiki_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+If you want to access TiddlyWiki externally, set `tiddlywiki_available_externally: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The TiddlyWiki web interface can be found at [http://ansible_nas_host_or_ip:8092](http://ansible_nas_host_or_ip:8092).
 

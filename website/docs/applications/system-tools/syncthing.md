@@ -22,7 +22,7 @@ Syncthing should be:
 
 ## Usage
 
-Set `syncthing_enabled: true` in your `\inventories\[my inventory]\group_vars\nas.yml` file.
+Set `syncthing_enabled: true` in your `\inventories\[my inventory]\group_vars\site.yml` file.
 
 ## Specific Configuration
 

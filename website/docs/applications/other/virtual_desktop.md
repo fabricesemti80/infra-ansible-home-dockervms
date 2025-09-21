@@ -6,11 +6,11 @@ It's possible to run a cut down desktop within a Docker container. We use [Ratty
 
 ## Usage
 
-Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `virtual_desktop_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 ## Specific Configuration
 
-By default `ansible_nas_user` will be granted access with a password of `topsecret` with sudo rights. To change or add additional users override `vd_users` in your `nas.yml`:
+By default `ansible_nas_user` will be granted access with a password of `topsecret` with sudo rights. To change or add additional users override `vd_users` in your `site.yml`:
 
 ```yaml
 vd_users:

@@ -8,10 +8,10 @@ A process for watching your Docker containers and automatically updating and res
 
 ## Usage
 
-Set `watchtower_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `watchtower_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 ## Specific Configuration
 
 By default Watchtower is configured to check daily at 5am for updates.
 
-Various notification options are available, and can be configured by updating `watchtower_command` in your `inventories/<your_inventory>/group_vars/nas.yml` file. A few examples are provided. The full set of options can be found at the [Watchtower GitHub project page](https://github.com/v2tec/watchtower).
+Various notification options are available, and can be configured by updating `watchtower_command` in your `inventories/<your_inventory>/group_vars/site.yml` file. A few examples are provided. The full set of options can be found at the [Watchtower GitHub project page](https://github.com/v2tec/watchtower).

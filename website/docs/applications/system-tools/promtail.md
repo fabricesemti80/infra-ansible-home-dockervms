@@ -16,6 +16,6 @@ It primarily:
 
 ## Usage
 
-Set `promtail_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `promtail_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 To see what Promtail is doing (and what containers it has discovered for tailing), visit the web interface at at [http://ansible_nas_host_or_ip:9080](http://ansible_nas_host_or_ip:9080).

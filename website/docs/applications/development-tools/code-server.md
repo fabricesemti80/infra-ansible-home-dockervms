@@ -10,7 +10,7 @@ Run VSCode on you NAS, accessible through the browser. This web based IDE works 
 
 ## Usage
 
-Set `code_server_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `code_server_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Code Server's web interface can be found at [http://ansible_nas_host_or_ip:8443](http://ansible_nas_host_or_ip:8443)
 

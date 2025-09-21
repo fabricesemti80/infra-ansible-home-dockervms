@@ -9,11 +9,11 @@ YoutubeDL-Material is a Material Design frontend for youtube-dl. It's coded usin
 
 ## Usage
 
-Set `youtubedlmaterial_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `youtubedlmaterial_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The YouTubeDL-Material web interface can be found at [http://ansible_nas_host_or_ip:8998](http://ansible_nas_host_or_ip:8998).
 
 ## Specific Configuration
 
 A YouTube directory will be created in your configured downloads spot. YouTubeDL-Material downloads will be placed there.
-You can change the download location via `inventories/<your_inventory>/group_vars/nas.yml` file.
+You can change the download location via `inventories/<your_inventory>/group_vars/site.yml` file.

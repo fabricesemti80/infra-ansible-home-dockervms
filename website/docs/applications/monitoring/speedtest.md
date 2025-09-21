@@ -10,8 +10,8 @@ Continuously track your internet speed
 
 ## Usage
 
-Set `speedtest_tracker_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `speedtest_tracker_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
-If you want to access Speedtest-Tracker externally, don't forget to set `speedtest_tracker_available_externally: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+If you want to access Speedtest-Tracker externally, don't forget to set `speedtest_tracker_available_externally: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Speedtest-Tracker interface can be found at [http://ansible_nas_host_or_ip:8765](http://ansible_nas_host_or_ip:8765).

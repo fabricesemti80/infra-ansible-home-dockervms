@@ -8,7 +8,7 @@ Bazarr is a companion application to Sonarr and Radarr. It manages and downloads
 
 ## Usage
 
-Set `bazarr_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `bazarr_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 ## Specific Configuration
 

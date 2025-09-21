@@ -8,6 +8,6 @@ A simple and flexible scheduler and orchestrator to deploy and manage containers
 
 ## Usage
 
-Set `nomad_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `nomad_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 Nomad's web interface can be found at [http://ansible_nas_host_or_ip:4646](http://ansible_nas_host_or_ip:4646)

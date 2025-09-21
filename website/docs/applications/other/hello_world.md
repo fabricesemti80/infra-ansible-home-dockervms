@@ -8,7 +8,7 @@ A few sentences here about what the application does.
 
 ## Usage
 
-Set `hello_world_enabled: true` in your `inventories/<your_inventory>/group_vars/nas.yml` file.
+Set `hello_world_enabled: true` in your `inventories/<your_inventory>/group_vars/site.yml` file.
 
 The Hello World web interface can be found at [http://ansible_nas_host_or_ip:9999](http://ansible_nas_host_or_ip:9999).
 

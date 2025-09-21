@@ -6,7 +6,7 @@ sidebar_position: 2
 
 Ansible-NAS takes advantage of Ansible's [prescendence rules](https://docs.ansible.com/ansible/latest/reference_appendices/general_precedence.html) to enable and disable applications.
 
-Look through the documentation and find an application you want to install, and set the relevant variable to `true` in your inventory `nas.yml`. Don't edit the source code!
+Look through the documentation and find an application you want to install, and set the relevant variable to `true` in your inventory `site.yml`. Don't edit the source code!
 
 Run the playbook again, and you're done.
 
