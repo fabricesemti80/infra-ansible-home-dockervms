@@ -52,3 +52,8 @@
     name: docker
     state: restarted
   when: docker_config.changed
+
+- name: Create ansible-docker network
+  community.docker.docker_network:
+    name: ansible-docker
+    state: present
