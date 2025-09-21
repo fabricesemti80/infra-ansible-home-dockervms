@@ -40,3 +40,5 @@ I use indexers:
 - Add download client SABNzbd
 
 ![alt text](image-4.png)
+
+> set language!

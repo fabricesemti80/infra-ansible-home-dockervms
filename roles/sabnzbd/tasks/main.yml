@@ -30,7 +30,7 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: download_dir
-      value: "/downloads"
+      value: "/downloads/incomplete"
       create: true
     register: sabnzbd_config_download_dir
 
@@ -39,7 +39,7 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: complete_dir
-      value: "/downloads/complete"
+      value: "/downloads"
       create: true
     register: sabnzbd_config_complete_dir
 

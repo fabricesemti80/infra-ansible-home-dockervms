@@ -243,12 +243,22 @@ clean_name_move() {
 
 # Function to clean folder name for RENAME mode (removes custom pattern and cleans up)
 clean_name_rename() {
+    local original="$1"
+    local cleaned
+
     # Remove custom pattern, then clean up whitespace and punctuation
-    echo "$1" | \
+    cleaned=$(echo "$original" | \
     sed "s/$PATTERN//g" | \
     sed 's/[[:space:]]\+/ /g' | \
     sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | \
-    sed 's/^[.[:space:]]*//; s/[.[:space:]]*$//'
+    sed 's/^[.[:space:]]*//; s/[.[:space:]]*$//')
+
+    # If result is empty or only whitespace, keep original name
+    if [ -z "$cleaned" ] || [ "$(echo "$cleaned" | sed 's/[[:space:]]//g')" = "" ]; then
+        echo "$original"
+    else
+        echo "$cleaned"
+    fi
 }
 
 # Function for MOVE mode - process a source-destination pair
@@ -375,9 +385,15 @@ rename_folders() {
         local clean_basename
         clean_basename=$(clean_name_rename "$basename")
 
-        # Skip if name wouldn't change
+        # Skip if name wouldn't change or would result in empty/invalid name
         if [ "$basename" = "$clean_basename" ]; then
-            echo -e "${YELLOW}Skipping: [$basename] (no change needed)${NC}"
+            echo -e "${YELLOW}Skipping: [$basename] (no change needed or would result in empty name)${NC}"
+            continue
+        fi
+
+        # Additional safety check for empty names after cleaning
+        if [ -z "$clean_basename" ] || [ "$(echo "$clean_basename" | sed 's/[[:space:]]//g')" = "" ]; then
+            echo -e "${YELLOW}Skipping: [$basename] (would result in empty name)${NC}"
             continue
         fi
 
@@ -396,9 +412,17 @@ rename_folders() {
             dest_exists=$($SSH_CMD "test -e \"$new_path\" && echo yes || echo no")
 
             if [ "$dest_exists" = "yes" ]; then
-                status="failed"
-                changed="false (destination already exists)"
-            else
+                if [ "$OVERWRITE" = true ]; then
+                    echo -e "${YELLOW}  Removing existing destination: $new_path${NC}"
+                    $SSH_CMD "rm -rf \"$new_path\""
+                    dest_exists="no"
+                else
+                    status="failed"
+                    changed="false (destination already exists)"
+                fi
+            fi
+
+            if [ "$dest_exists" = "no" ]; then
                 echo -e "${YELLOW}  Executing: mv \"$folder\" \"$new_path\"${NC}"
                 $SSH_CMD "mv \"$folder\" \"$new_path\""
 
