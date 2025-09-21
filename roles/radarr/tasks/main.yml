@@ -1,14 +1,13 @@
----
-- name: Start Radarr
+- name: DEPLOY Radarr
   block:
-  - name: Create Radarr Directories
+  - name: Create Radarr Data Directory
     ansible.builtin.file:
       path: "{{ item }}"
       state: directory
     with_items:
     - "{{ radarr_data_directory }}"
 
-  - name: Radarr Docker Container
+  - name: Radarr
     community.docker.docker_container:
       name: "{{ radarr_container_name }}"
       image: "{{ radarr_image_name }}:{{ radarr_image_version }}"
@@ -24,6 +23,8 @@
         PUID: "{{ radarr_user_id }}"
         PGID: "{{ radarr_group_id }}"
       restart_policy: unless-stopped
+      networks:
+        - name: "{{ docker_network }}"
       memory: "{{ radarr_memory }}"
       labels:
         traefik.enable: "{{ radarr_available_externally | string }}"
@@ -37,12 +38,30 @@
         homepage.icon: sh-radarr
         homepage.href: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:{{ radarr_port }}"
 
+  - name: Get Radarr API key
+    ansible.builtin.command: grep '<ApiKey>' "{{ radarr_data_directory }}/config.xml"
+    register: radarr_api_key_raw
+    changed_when: false
+
+  - name: Set Radarr API key variable
+    ansible.builtin.set_fact:
+      radarr_api_key: "{{ radarr_api_key_raw.stdout | regex_replace('<ApiKey>(.*)</ApiKey>', '\\1') }}"
+
+  - name: Display Radarr API key
+    ansible.builtin.debug:
+      msg: "Radarr API Key: {{ radarr_api_key }}"
   when: radarr_enabled is true
 
-- name: Stop Radarr
+
+- name: REMOVE Radarr
   block:
   - name: Stop Radarr
     community.docker.docker_container:
       name: "{{ radarr_container_name }}"
+      state: absent
+
+  - name: Remove Radarr Data Directory
+    ansible.builtin.file:
+      path: "{{ radarr_data_directory }}"
       state: absent
   when: radarr_enabled is false

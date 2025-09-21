@@ -31,6 +31,10 @@ I use indexers:
 
 ![alt text](image-5.png)
 
+- Add your Radarr
+
+![alt text](image-6.png)
+
 ## Sonarr
 
 - Add download client SABNzbd
