@@ -108,3 +108,15 @@ homepage_bookmarks_yaml:
     - abbr: YT
       href: https://youtube.com/
       icon: youtube
+  - Netflix:
+    - abbr: NF
+      href: https://netflix.com/
+      icon: netflix
+  - Disney+:
+    - abbr: DP
+      href: https://disneyplus.com/
+      icon: disney-plus
+  - Amazon Prime Video:
+    - abbr: APV
+      href: https://primevideo.com/
+      icon: amazon-prime-video
