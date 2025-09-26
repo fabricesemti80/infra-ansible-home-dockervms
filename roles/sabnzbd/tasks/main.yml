@@ -39,7 +39,7 @@
       path: "{{ sabnzbd_data_directory }}/sabnzbd.ini"
       section: misc
       option: complete_dir
-      value: "/downloads"
+      value: "/downloads/complete"
       create: true
     register: sabnzbd_config_complete_dir
 
@@ -60,7 +60,7 @@
       volumes:
       - "{{ sabnzbd_data_directory }}:/config:rw"
       - "{{ sabnzbd_downloads_directory }}:/downloads"
-      - "{{ sabnzbd_incomplete_directory }}:/incomplete-downloads"
+      # - "{{ sabnzbd_incomplete_directory }}:/incomplete-downloads"
       ports:
       - "{{ sabnzbd_port }}:8080"
       env:
