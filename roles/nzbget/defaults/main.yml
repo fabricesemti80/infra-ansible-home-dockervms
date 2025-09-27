@@ -21,3 +21,7 @@ nzbget_image_version: "latest"
 
 # specs
 nzbget_memory: "1g"
+
+# credentials
+nzbget_user: "nzbget"
+nzbget_pass: "tegbzn6789"

@@ -52,3 +52,7 @@ I use indexers:
 - Dont forget to add notification
 
 ![alt text](image-8.png)
+
+## NZBGet
+
+![alt text](image-9.png)
