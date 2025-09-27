@@ -56,3 +56,15 @@ I use indexers:
 ## NZBGet
 
 ![alt text](image-9.png)
+
+> important
+
+Ensure the `categories`
+
+![alt text](image-10.png)
+
+Match to `sonarr/radarr`-s download client settings
+
+![alt text](image-11.png)
+
+And their folder exists in the `downloads` folder
