@@ -1,35 +1,45 @@
 ---
+# Task to start the Cloudflared service when enabled
 - name: Start Cloudflared
+  # Block to group related tasks for starting Cloudflared
   block:
+    # Create necessary directories for storing Cloudflared data
     - name: Create Cloudflared Directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: directory
-      with_items:
-        - "{{ cloudflared_data_directory }}"
+      ansible.builtin.file:  # Ansible module for managing files and directories
+        path: "{{ item }}"  # Path of the directory to create
+        state: directory  # Ensure the path is a directory
+      with_items:  # Iterate over the list of items
+        - "{{ cloudflared_data_directory }}"  # Variable containing the data directory path
 
+    # Create and start the Cloudflared Docker container
     - name: Cloudflared Docker Container
-      community.docker.docker_container:
-        name: "{{ cloudflared_container_name }}"
-        image: cloudflare/cloudflared
-        command: tunnel run
-        pull: true
-        restart_policy: unless-stopped
-        memory: "{{ cloudflared_memory }}"
-        env:
-          TUNNEL_TOKEN: "{{ cloudflared_tunnel_token }}"
+      community.docker.docker_container:  # Ansible module for managing Docker containers
+        name: "{{ cloudflared_container_name }}"  # Name of the Docker container
+        image: cloudflare/cloudflared  # Docker image to use for the container
+        command: tunnel run  # Command to execute inside the container: run the Cloudflare tunnel
+        pull: true  # Pull the latest version of the image before creating the container
+        restart_policy: unless-stopped  # Container restart policy: restart unless manually stopped
+        memory: "{{ cloudflared_memory }}"  # Memory limit for the container
+        env:  # Environment variables to set in the container
+          TUNNEL_TOKEN: "{{ cloudflared_tunnel_token }}"  # Tunnel token for authentication; container will be restarted if this changes
+  # Only execute this block when Cloudflared is enabled
   when: cloudflared_enabled is true
 
+# Task to stop and clean up Cloudflared when disabled
 - name: Stop Cloudflared
+  # Block to group related tasks for stopping Cloudflared
   block:
+    # Stop and remove the Cloudflared Docker container
     - name: Stop Cloudflared
-      community.docker.docker_container:
-        name: "{{ cloudflared_container_name }}"
-        state: absent
+      community.docker.docker_container:  # Ansible module for managing Docker containers
+        name: "{{ cloudflared_container_name }}"  # Name of the Docker container
+        state: absent  # Ensure the container is absent (stopped and removed)
+    # Remove the Cloudflared data directories
     - name: Remove Cloudflared Directories
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      with_items:
-        - "{{ cloudflared_data_directory }}"
+      ansible.builtin.file:  # Ansible module for managing files and directories
+        path: "{{ item }}"  # Path of the directory to remove
+        state: absent  # Ensure the path is absent (directory removed)
+      with_items:  # Iterate over the list of items
+        - "{{ cloudflared_data_directory }}"  # Variable containing the data directory path
+  # Only execute this block when Cloudflared is disabled
   when: cloudflared_enabled is false

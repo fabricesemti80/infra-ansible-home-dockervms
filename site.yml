@@ -2,6 +2,30 @@
 - name: Ansible-NAS
   hosts: all
 
+  pre_tasks:
+    - name: Fix corrupt apt package lists
+      become: true
+      block:
+        - name: Attempt to update apt cache
+          apt:
+            update_cache: true
+            cache_valid_time: 3600
+          ignore_errors: true
+          register: apt_update_result
+
+        - name: Clean apt cache if update failed
+          command: apt-get clean
+          when: apt_update_result.failed
+
+        - name: Remove corrupt apt lists if update failed
+          command: rm -rf /var/lib/apt/lists/*
+          when: apt_update_result.failed
+
+        - name: Update apt cache after cleaning
+          apt:
+            update_cache: yes
+          when: apt_update_result.failed
+
   roles:
   ###
   ### Requirements
