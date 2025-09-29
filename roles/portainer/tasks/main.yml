@@ -46,6 +46,20 @@
         homepage.widget.key: "{{ portainer_api_key }}"
   when: portainer_enabled is true
 
+- name: Start Portainer Agent
+  community.docker.docker_container:
+    name: portainer_agent
+    image: portainer/agent:latest
+    pull: true
+    ports:
+    - "9001:9001"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /var/lib/docker/volumes:/var/lib/docker/volumes
+    - /:/host
+    restart_policy: always
+  when: portainer_agent_enable is true
+
 - name: Stop Portainer
   block:
   - name: Stop Portainer
@@ -59,3 +73,11 @@
     with_items:
     - "{{ portainer_data_directory }}"
   when: portainer_enabled is false
+
+- name: Stop Portainer agent
+  block:
+  - name: Stop Portainer Agent
+    community.docker.docker_container:
+      name: portainer_agent
+      state: absent
+  when: portainer_agent_enable is false
